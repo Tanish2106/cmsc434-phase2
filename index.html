@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Kitchen Kompanion</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="device">
+
+    <!-- Kitchen (home screen) -->
+    <section class="screen active" id="kitchenScreen" data-tab="kitchen">
+      <header class="topbar">
+        <h1>Kitchen</h1>
+        <button class="icon-button" id="addItemButton" aria-label="Add item"><img src="icons/add-green.png" alt=""
+            width="80" height="80"></button>
+        <button class="icon-button" id="settingsButton" aria-label="Settings"><img src="icons/settings-dark.png" alt=""
+            width="72" height="72"></button>
+      </header>
+
+      <div class="searchbar" id="searchbar" hidden>
+        <input id="searchInput" class="text-input" type="text" placeholder="Search items…" autocomplete="off">
+        <button id="searchClear" aria-label="Close search">✕</button>
+      </div>
+
+      <div class="segmented" id="locationFilter" role="tablist" aria-label="Storage location">
+        <button class="active" data-location="All">All</button>
+        <button data-location="Fridge">Fridge</button>
+        <button data-location="Freezer">Freezer</button>
+        <button data-location="Pantry">Pantry</button>
+      </div>
+
+      <main id="kitchenList" class="scroll"></main>
+
+      <button class="search-button" id="searchButton" aria-label="Search items"><img src="icons/search-white.png" alt=""
+          width="48" height="48"></button>
+    </section>
+
+    <!-- Add / Edit item -->
+    <section class="screen" id="addItemScreen" data-tab="kitchen">
+      <header class="topbar with-back">
+        <button class="back" id="addBack" aria-label="Back to Kitchen"><span class="back-arrow">←</span></button>
+        <h1 id="addTitle">Add Item</h1>
+      </header>
+
+      <form id="addForm" class="form" onsubmit="return false" autocomplete="off">
+        <input type="hidden" id="editingItemId">
+
+        <label class="field-label" for="itemName">Item name</label>
+        <input id="itemName" class="field full-width text-input" type="text" placeholder="e.g. Eggs">
+        <div class="error" id="nameError" hidden>Give the item a name first.</div>
+
+        <div class="field-row">
+          <label class="field-label inline" for="itemQuantity">Quantity</label>
+          <input id="itemQuantity" class="field qty" type="text" value="1" readonly aria-label="Quantity (tap to type)">
+          <div class="field dropdown wide"><select id="itemUnit" aria-label="Unit"></select><span
+              class="dropdown-arrow">▾</span></div>
+        </div>
+
+        <label class="field-label">Stored in</label>
+        <div class="choice" id="itemLocation" role="radiogroup" aria-label="Storage location">
+          <button type="button" data-value="Fridge" class="active">Fridge</button>
+          <button type="button" data-value="Freezer">Freezer</button>
+          <button type="button" data-value="Pantry">Pantry</button>
+        </div>
+
+        <div class="field-row">
+          <span class="field-label inline">Expires in</span>
+          <div class="field dropdown narrow"><select id="expiresIn" aria-label="Number"></select><span
+              class="dropdown-arrow">▾</span></div>
+          <div class="field dropdown wide"><select id="expiresUnit" aria-label="Unit of time">
+              <option value="days">days</option>
+              <option value="weeks">weeks</option>
+              <option value="months">months</option>
+            </select><span class="dropdown-arrow">▾</span></div>
+        </div>
+
+        <div class="two-columns">
+          <div class="column">
+            <label class="field-label" for="itemAllergen">Allergen</label>
+            <div class="field dropdown"><select id="itemAllergen"></select><span class="dropdown-arrow">▾</span></div>
+          </div>
+          <div class="column">
+            <span class="field-label">Whose</span>
+            <div class="choice" id="itemOwner" role="radiogroup" aria-label="Whose item">
+              <button type="button" data-value="Me" class="active">Me</button>
+              <button type="button" data-value="Shared">Shared</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn primary" id="saveItem">Save</button>
+          <button type="button" class="btn ghost" id="deleteItem" hidden>Delete</button>
+          <button type="button" class="btn ghost" id="resetForm">Reset</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Shop -->
+    <section class="screen" id="shopScreen" data-tab="shop">
+      <header class="topbar">
+        <h1>Shop</h1>
+        <button class="icon-button" id="shopAdd" aria-label="Add to list"><img src="icons/add-green.png" alt=""
+            width="80" height="80"></button>
+      </header>
+      <main id="shopList" class="scroll"></main>
+    </section>
+
+    <!-- Recipes / People -->
+    <section class="screen" id="recipesScreen" data-tab="recipes">
+      <header class="topbar">
+        <h1>Recipes</h1>
+      </header>
+      <main class="placeholder">
+        <p>Recipes is under development.</p>
+        <p class="meta">Saved recipes with Have / Missing against your Kitchen will appear here.</p>
+      </main>
+    </section>
+    <section class="screen" id="peopleScreen" data-tab="people">
+      <header class="topbar">
+        <h1>People</h1>
+      </header>
+      <main class="placeholder">
+        <p>People is under development.</p>
+        <p class="meta">Household members, allergies and favorites will appear here.</p>
+      </main>
+    </section>
+
+    <!-- Settings -->
+    <section class="screen" id="settingsScreen" data-tab="kitchen">
+      <header class="topbar with-back">
+        <button class="back" id="settingsBack" aria-label="Back"><span class="back-arrow">←</span></button>
+        <h1>Settings</h1>
+      </header>
+      <main class="form">
+        <div class="card">
+          <button class="row settings-row" id="resetDataButton">
+            <span class="name">Reset demo data</span>
+            <span class="meta">Restores the sample kitchen</span>
+          </button>
+          <button class="row settings-row coming-soon">
+            <span class="name">Household</span>
+            <span class="meta">Under development</span>
+          </button>
+          <button class="row settings-row coming-soon">
+            <span class="name">Reminders</span>
+            <span class="meta">Under development</span>
+          </button>
+        </div>
+      </main>
+    </section>
+
+    <!-- Bottom nav br -->
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-tab="kitchen">
+        <span class="pill">
+          <img class="icon-active" src="icons/kitchen-active.png" alt="" width="48" height="48">
+          <img class="icon-inactive" src="icons/kitchen-muted.png" alt="" width="48" height="48">
+        </span>
+        Kitchen
+      </button>
+      <button class="tab" data-tab="shop">
+        <span class="pill">
+          <img class="icon-active" src="icons/shop-active.png" alt="" width="48" height="48">
+          <img class="icon-inactive" src="icons/shop-muted.png" alt="" width="48" height="48">
+        </span>
+        Shop
+      </button>
+      <button class="tab" data-tab="recipes">
+        <span class="pill">
+          <img class="icon-active" src="icons/recipes-active.png" alt="" width="48" height="48">
+          <img class="icon-inactive" src="icons/recipes-muted.png" alt="" width="48" height="48">
+        </span>
+        Recipes
+      </button>
+      <button class="tab" data-tab="people">
+        <span class="pill">
+          <img class="icon-active" src="icons/people-active.png" alt="" width="48" height="48">
+          <img class="icon-inactive" src="icons/people-muted.png" alt="" width="48" height="48">
+        </span>
+        People
+      </button>
+    </nav>
+
+    <!-- Number pad for qhen qty tapped-->
+    <div id="numpad" hidden>
+      <div class="numpad-header">
+        <button class="numpad-cancel" id="numpadCancel">Cancel</button>
+        <div class="numpad-title" id="numpadTitle">Quantity</div>
+        <button class="numpad-done" id="numpadDone">Done</button>
+      </div>
+      <div class="keys">
+        <button>1</button><button>2</button><button>3</button>
+        <button>4</button><button>5</button><button>6</button>
+        <button>7</button><button>8</button><button>9</button>
+        <button>.</button><button>0</button>
+        <button class="backspace" aria-label="Delete">⌫</button>
+      </div>
+    </div>
+
+    <!-- On-screen keyboard image -->
+    <img id="keyboard" src="icons/keyboard.png" alt="On-screen keyboard" hidden>
+
+    <div id="modal" hidden>
+      <div class="dialog">
+        <h2 id="modalTitle"></h2>
+        <p id="modalText"></p>
+        <div class="modal-actions" id="modalActions"></div>
+      </div>
+    </div>
+
+    <div id="toast" hidden></div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
