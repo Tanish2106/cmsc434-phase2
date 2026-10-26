@@ -101,13 +101,47 @@
 
     <!-- Shop -->
     <section class="screen" id="shopScreen" data-tab="shop">
-      <header class="topbar">
-        <h1>Shop</h1>
+      <header class="topbar with-back">
+        <h1>Shopping List</h1>
         <button class="icon-button" id="shopAdd" aria-label="Add to list"><img src="icons/add-green.png" alt=""
             width="80" height="80"></button>
       </header>
-      <main id="shopList" class="scroll"></main>
+      <div class="body-shoppingList" id="BodyShoppingList"></div>
+
     </section>
+    <section class="screen" id="shopAddScreen" data-tab="shop">
+      <header class="topbar with-back">
+        <button type="button" class="back" id="shopBack">&larr;</button>
+        <h1>Add Shopping Item</h1>
+      </header>
+
+      <form id="shopForm" class="form">
+        <label class="field-label">Item Name
+          <input name="itemName" class="field full-width text-input" required>
+        </label>
+
+        <label class="field-label">Quantity
+          <input name="qty" class="field qty" type="number" min="0.01" step="any" value="1" required>
+        </label>
+
+        <label class="field-label">Unit
+          <select name="unit" class="field"></select>
+        </label>
+
+        <label class="field-label">Whose
+          <input name="owner" class="field text-input" value="Me">
+        </label>
+        <div class="actions">
+          <button type="submit" class="btn primary">Save</button>
+          <button type="reset" class="btn ghost">Reset</button>
+        </div>
+      </form>
+    </section>
+    
+
+
+  
+
 
     <!-- Recipes / People -->
     <section class="screen" id="recipesScreen" data-tab="recipes">

@@ -334,8 +334,8 @@ document.getElementById('deleteItem').addEventListener('click', () => {
 });
 
 // Shop
-function renderShop() {
-  const list = document.getElementById('shopList');
+function renderShop() { 
+  const list = document.getElementById('BodyShoppingList');
   if (!data.shop.length) {
     list.innerHTML = '<div class="empty-note">Your list is empty.</div>';
     return;
@@ -353,22 +353,63 @@ function renderShop() {
           <div class="name">${entry.name}</div>
           <div class="meta">${formatQty(entry.qty)}${unit} · ${homeText}</div>
         </div>
+        <button type="button" class="btn ghost" data-action="remove">Remove</button>
       </div>`;
   }).join('');
 
   list.innerHTML = `<h2 class="section">To buy <span class="count">${data.shop.filter(entry => !entry.done).length}</span></h2><div class="card">${rows}</div>`;
 }
 
-document.getElementById('shopList').addEventListener('click', (event) => {
-  const btn = event.target.closest('[data-action="toggle"]');
+document.getElementById('BodyShoppingList').addEventListener('click', (event) => {
+  const btn = event.target.closest('[data-action]');
   if (!btn) return;
   const entry = data.shop.find(candidate => candidate.id === Number(btn.closest('.row').dataset.id));
-  entry.done = !entry.done;
+  if(btn.dataset.action === 'remove') {
+    data.shop = data.shop.filter(item => item.id !== entry.id);
+  }else {
+    entry.done = !entry.done;
+  }
   saveData();
   renderShop();
 });
 
-document.getElementById('shopAdd').addEventListener('click', () => showToast('Add to list - under development'));
+
+const shopForm = document.getElementById('shopForm');
+UNITS.forEach(unit => {
+  shopForm.elements.unit.add(new Option (unit,unit));
+});
+document.querySelectorAll('#shopAdd, #shopAddBottom').forEach(button => {
+  button.addEventListener('click', () => {
+    shopForm.reset();
+    showScreen('shopAddScreen');
+  });
+});
+document.getElementById('shopBack').addEventListener('click', () => {
+  showScreen('shopScreen');
+});
+
+shopForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const fields = shopForm.elements;
+  const name = fields.itemName.value.trim();
+
+  if(!name){
+    showToast('Give the name of item');
+    return;
+  }
+  data.shop.push({
+    id: Date.now(),
+    name,
+    qty: Number(fields.qty.value),
+    unit: fields.unit.value,
+    owner: fields.owner.value.trim() || 'Me',
+    done: false
+  });
+  saveData();
+  renderShop();
+  showScreen('shopScreen');
+});
+
 
 // Settings
 document.getElementById('resetDataButton').addEventListener('click', () => {

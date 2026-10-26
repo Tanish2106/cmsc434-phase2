@@ -587,7 +587,10 @@ img {
        background: var(--accent);
        color: #fff;
 }
-
+.back {
+       position: absolute;
+       left: 560px;
+}
 .btn.ghost {
        border: 3px solid var(--text);
        color: var(--text);
