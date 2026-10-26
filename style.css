@@ -176,12 +176,6 @@ img {
        height: 68px;
 }
 
-.back-arrow {
-       font-size: 44px;
-       font-weight: 700;
-       line-height: 1;
-}
-
 /* Search bar */
 .searchbar {
        display: flex;
@@ -587,10 +581,7 @@ img {
        background: var(--accent);
        color: #fff;
 }
-.back {
-       position: absolute;
-       left: 560px;
-}
+
 .btn.ghost {
        border: 3px solid var(--text);
        color: var(--text);

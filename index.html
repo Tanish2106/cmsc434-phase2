@@ -41,7 +41,7 @@
     <!-- Add / Edit item -->
     <section class="screen" id="addItemScreen" data-tab="kitchen">
       <header class="topbar with-back">
-        <button class="back" id="addBack" aria-label="Back to Kitchen"><span class="back-arrow">←</span></button>
+        <button class="back" id="addBack" aria-label="Back to Kitchen">&larr;</button>
         <h1 id="addTitle">Add Item</h1>
       </header>
 
@@ -106,22 +106,22 @@
         <button class="icon-button" id="shopAdd" aria-label="Add to list"><img src="icons/add-green.png" alt=""
             width="80" height="80"></button>
       </header>
-      <div class="body-shoppingList" id="BodyShoppingList"></div>
+      <div class="body-shoppingList scroll" id="BodyShoppingList"></div>
 
     </section>
     <section class="screen" id="shopAddScreen" data-tab="shop">
       <header class="topbar with-back">
         <button type="button" class="back" id="shopBack">&larr;</button>
-        <h1>Add Shopping Item</h1>
+        <h1>Add Item</h1>
       </header>
 
       <form id="shopForm" class="form">
         <label class="field-label">Item Name
-          <input name="itemName" class="field full-width text-input" required>
+          <input name="itemName" class="field full-width text-input">
         </label>
 
         <label class="field-label">Quantity
-          <input name="qty" class="field qty" type="number" min="0.01" step="any" value="1" required>
+          <input name="qty" class="field qty" type="number" min="0.01" step="any" value="1">
         </label>
 
         <label class="field-label">Unit
@@ -137,10 +137,10 @@
         </div>
       </form>
     </section>
-    
 
 
-  
+
+
 
 
     <!-- Recipes / People -->
@@ -166,7 +166,7 @@
     <!-- Settings -->
     <section class="screen" id="settingsScreen" data-tab="kitchen">
       <header class="topbar with-back">
-        <button class="back" id="settingsBack" aria-label="Back"><span class="back-arrow">←</span></button>
+        <button class="back" id="settingsBack" aria-label="Back">&larr;</button>
         <h1>Settings</h1>
       </header>
       <main class="form">
