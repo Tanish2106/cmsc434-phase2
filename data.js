@@ -47,5 +47,17 @@ function seedData() {
       { id: 101, name: 'Chana (chickpeas)', qty: 2, unit: 'count', done: false },
       { id: 102, name: 'Onions', qty: 3, unit: 'count', done: false },
     ],
+    people: [
+      { id: 151, name: 'Me', allergies: [], diet: 'None', favorites: [] },
+      { id: 152, name: 'Maddie', allergies: [], diet: 'None', favorites: ['Egg curry'] },
+      { id: 153, name: "Maddie's child", allergies: ['Peanuts'], diet: 'None', favorites: ['Banana pancakes'] },
+    ],
+    settings: {
+      defaultUnit: 'count',
+      shopOrder: 'added',
+      reminder: false,
+      reminderDay: '0',
+      reminderTime: '17:00',
+    },
   };
 }

@@ -32,6 +32,7 @@
         <button data-location="Pantry">Pantry</button>
       </div>
 
+      <button id="shoppingReminder" class="reminder-note" hidden>Shopping reminder: check your list before you go.</button>
       <main id="kitchenList" class="scroll"></main>
 
       <button class="search-button" id="searchButton" aria-label="Search items"><img src="icons/search-white.png" alt=""
@@ -156,10 +157,58 @@
     <section class="screen" id="peopleScreen" data-tab="people">
       <header class="topbar">
         <h1>People</h1>
+        <button class="icon-button" id="addPerson" aria-label="Add household member"><img src="icons/add-green.png" alt="" width="80" height="80"></button>
       </header>
-      <main class="placeholder">
-        <p>People is under development.</p>
-        <p class="meta">Household members, allergies and favorites will appear here.</p>
+      <main class="form">
+        <h2 class="section">Household</h2>
+        <div class="card" id="peopleList"></div>
+      </main>
+    </section>
+
+    <section class="screen" id="personScreen" data-tab="people">
+      <header class="topbar with-back">
+        <button class="back" id="personBack" aria-label="Back to People">&larr;</button>
+        <h1 id="personTitle">Edit Profile</h1>
+      </header>
+      <form id="personForm" class="form profile-form" autocomplete="off">
+        <input type="hidden" id="personId">
+        <label class="field-label" for="personName">Name</label>
+        <input id="personName" class="field full-width text-input" maxlength="30" placeholder="e.g. Maddie" required>
+        <fieldset class="profile-fieldset">
+          <legend class="field-label">Allergies</legend>
+          <div class="allergy-tags" id="personAllergies"></div>
+          <div class="small-entry" id="otherAllergyEntry" hidden>
+            <input id="otherAllergy" class="field text-input" maxlength="30" placeholder="Other allergen" aria-label="Other allergen">
+            <button type="button" class="btn ghost" id="addAllergy">Add tag</button>
+          </div>
+        </fieldset>
+        <label class="field-label" for="personDiet">Dietary restrictions</label>
+        <select id="personDiet" class="field full-width">
+          <option>None</option><option>Vegetarian</option><option>Vegan</option>
+          <option>Pescatarian</option><option>Gluten-free</option><option>Dairy-free</option>
+        </select>
+        <label class="field-label" for="favoriteInput">Favorites</label>
+        <div class="favorite-tags" id="personFavorites"></div>
+        <div class="small-entry">
+          <input id="favoriteInput" class="field text-input" maxlength="40" placeholder="e.g. Dosa" aria-label="Favorite dish or item">
+          <button type="button" class="btn ghost" id="addFavorite">Add</button>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn primary">Save</button>
+          <button type="button" class="btn ghost" id="resetPerson">Reset</button>
+        </div>
+        <button type="button" class="text-button" id="deletePerson">Remove member</button>
+      </form>
+    </section>
+
+    <section class="screen" id="personFoodsScreen" data-tab="people">
+      <header class="topbar with-back">
+        <button class="back" id="foodsBack" aria-label="Back to People">&larr;</button>
+        <h1>Kitchen Items</h1>
+      </header>
+      <main class="form">
+        <p class="profile-note" id="foodsDescription"></p>
+        <div class="card" id="personFoods"></div>
       </main>
     </section>
 
@@ -169,22 +218,46 @@
         <button class="back" id="settingsBack" aria-label="Back">&larr;</button>
         <h1>Settings</h1>
       </header>
-      <main class="form">
-        <div class="card">
-          <button class="row settings-row" id="resetDataButton">
-            <span class="name">Reset demo data</span>
-            <span class="meta">Restores the sample kitchen</span>
-          </button>
-          <button class="row settings-row coming-soon">
+      <form id="settingsForm" class="form settings-form">
+        <label class="field-label" for="defaultUnit">New item unit</label>
+        <select id="defaultUnit" class="field full-width"></select>
+        <label class="field-label" for="shopOrder">Shopping list order</label>
+        <select id="shopOrder" class="field full-width">
+          <option value="added">Order added</option>
+          <option value="name">Item name (A–Z)</option>
+          <option value="owner">Owner (A–Z)</option>
+        </select>
+        <h2 class="section">Shopping reminder</h2>
+        <label class="reminder-choice"><input type="checkbox" id="reminderEnabled"> Remind me to shop</label>
+        <p class="profile-note">Shown in Kitchen on this day, at or after this time.</p>
+        <div id="reminderFields" class="field-row">
+          <div class="column">
+            <label class="field-label" for="reminderDay">Day</label>
+            <select id="reminderDay" class="field full-width">
+              <option value="0">Sunday</option><option value="1">Monday</option><option value="2">Tuesday</option>
+              <option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option>
+            </select>
+          </div>
+          <div class="column">
+            <label class="field-label" for="reminderTime">Time</label>
+            <input id="reminderTime" type="time" class="field full-width" required>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn primary">Save</button>
+          <button type="button" class="btn ghost" id="resetSettings">Reset</button>
+        </div>
+        <div class="card settings-links">
+          <button type="button" class="row settings-row" id="householdSettings">
             <span class="name">Household</span>
-            <span class="meta">Under development</span>
+            <span class="meta">Manage people and food preferences</span>
           </button>
-          <button class="row settings-row coming-soon">
-            <span class="name">Reminders</span>
-            <span class="meta">Under development</span>
+          <button type="button" class="row settings-row" id="resetDataButton">
+            <span class="name">Reset demo data</span>
+            <span class="meta">Restore sample items, people and settings</span>
           </button>
         </div>
-      </main>
+      </form>
     </section>
 
     <!-- Bottom nav br -->

@@ -408,6 +408,204 @@ img {
        color: var(--text2);
 }
 
+/* People and settings */
+.profile-form,
+.settings-form {
+       padding-bottom: 24px;
+}
+
+.profile-form > .field,
+.settings-form > .field {
+       margin-bottom: 12px;
+}
+
+.profile-form .field-label,
+.settings-form .field-label {
+       font-size: 36px;
+       margin-bottom: 6px;
+}
+
+.profile-form .field-label {
+       margin-bottom: 4px;
+}
+
+.profile-form > .field,
+.profile-form .small-entry {
+       margin-bottom: 8px;
+}
+
+.profile-form.keyboard-space {
+       padding-bottom: 350px;
+}
+
+.profile-form .field,
+.settings-form .field {
+       height: 64px;
+       font-size: 36px;
+}
+
+.profile-form .btn,
+.settings-form .btn {
+       height: 64px;
+       font-size: 36px;
+}
+
+.settings-form .section {
+       font-size: 36px;
+       margin: 16px 0;
+       padding: 0;
+}
+
+.profile-fieldset {
+       border: 0;
+       padding: 0;
+       margin: 0 0 12px;
+       min-width: 0;
+}
+
+.allergy-tags,
+.favorite-tags {
+       display: flex;
+       flex-wrap: wrap;
+       gap: 8px;
+       margin-bottom: 12px;
+}
+
+.allergy-tag {
+       position: relative;
+       cursor: pointer;
+}
+
+.allergy-tag input {
+       position: absolute;
+       opacity: 0;
+       width: 100%;
+       height: 100%;
+       margin: 0;
+       cursor: pointer;
+}
+
+.allergy-tag span,
+.favorite-tag,
+.more-allergies {
+       display: block;
+       padding: 8px 12px;
+       border: 2px solid var(--text);
+       border-radius: 12px;
+       font-size: 36px;
+       overflow-wrap: anywhere;
+       max-width: 100%;
+}
+
+.allergy-tag input:checked + span {
+       color: #fff;
+       background: var(--accent);
+}
+
+.allergy-tag input:focus-visible + span {
+       outline: 3px solid var(--text);
+       outline-offset: 3px;
+}
+
+.small-entry {
+       display: flex;
+       gap: 12px;
+       margin-bottom: 12px;
+}
+
+.small-entry input {
+       flex: 1;
+       min-width: 0;
+       padding: 0 12px;
+       font-size: 36px;
+}
+
+.small-entry .btn {
+       flex: none;
+       height: 64px;
+       padding: 0 14px;
+       font-size: 36px;
+}
+
+.person-row {
+       flex-wrap: wrap;
+       padding: 20px;
+}
+
+.person-row .info {
+       flex-basis: 100%;
+}
+
+.person-row .meta,
+.settings-links .meta,
+#personFoods .name {
+       white-space: normal;
+       overflow-wrap: anywhere;
+}
+
+.person-row .btn {
+       flex: none;
+       max-width: none;
+       height: 60px;
+       font-size: 36px;
+       padding: 0 20px;
+}
+
+#peopleList,
+#personFoods,
+.settings-links {
+       margin: 0 0 24px;
+}
+
+.profile-note {
+       font-size: 36px;
+       line-height: 1.35;
+       color: var(--text2);
+       margin: 12px 0 20px;
+}
+
+.settings-form .profile-note {
+       margin: 8px 0;
+}
+
+.text-button {
+       display: block;
+       font-size: 36px;
+       text-decoration: underline;
+       margin: 12px auto;
+}
+
+.reminder-choice {
+       display: flex;
+       align-items: center;
+       gap: 14px;
+       font-size: 36px;
+}
+
+.reminder-choice input {
+       width: 36px;
+       height: 36px;
+       accent-color: var(--accent);
+}
+
+.settings-form .field {
+       font-size: 36px;
+       padding: 0 10px;
+}
+
+.field:disabled {
+       opacity: .5;
+}
+
+.reminder-note {
+       margin: 12px 20px;
+       padding: 14px;
+       border: 2px solid var(--text);
+       border-radius: 14px;
+       font-size: 36px;
+       text-align: left;
+}
+
 /* Shop list */
 .checkbox {
        width: 64px;
