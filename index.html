@@ -144,11 +144,11 @@
 
 
 
-    <!-- Recipes / People -->
+    <!-- Recipes -->
     <section class="screen" id="recipesScreen" data-tab="recipes">
       <header class="topbar">
         <h1>Recipes</h1>
-        <button class="btn" type="button" onclick="openRecipe()">+ New Recipe</button>
+        <button class="btn" type="button" id="newRecipeButton">+ New recipe</button>
       </header>
       <main style="padding: 20px; flex: 1px;" class="placeholder">
       <div id="recipeList" class="scroll"></div>
@@ -163,14 +163,25 @@
     </button>
     <h1>Recipe</h1>
       </header>
-
       <form id="recipeForm" class="form">
         <label>Title <input name="title" class="field" required></label>
-        <label>Servings <input class="field" type="number" min="1" required>
+        <label>Servings <input name="servings" class="field" type="number" min="1" required>
         </label>
         <label>Minutes
           <input name="minutes" class="field" type="number" min="1" required>
         </label>
+      <h3>Ingredients</h3>
+      <div id="ingredientInputs"></div>
+      <button type="button" class="btn" onclick="addRecipeIngredient()">+ Ingredient</button>
+
+      <h3>Steps</h3>
+      <div id="stepInputs"></div>
+      <button type="button" class="btn" onclick="addRecipeStep()">+ Step</button>
+
+      <div class="actions">
+        <button class="btn primary" type="submit">Save recipe</button>
+        <button class="btn" type="submit" value="shop">Add checked ingredients to Shop</button>
+      </div>
       </form>
     </section>
 

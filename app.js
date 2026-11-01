@@ -432,6 +432,118 @@ shopForm.addEventListener('submit', (event) => {
   showScreen('shopScreen');
 });
 
+data.recipes ??= [];
+
+const recipeForm = document.getElementById('recipeForm');
+const ingredientInputs = document.getElementById('ingredientInputs');
+const stepInputs = document.getElementById('stepInputs');
+let editingRecipe = null;
+
+function renderRecipes() {
+  const list = document.getElementById('recipeList');
+  list.replaceChildren();
+
+  if (!data.recipes.length) list.textContent = 'No recipes yet. Create one.';
+
+  data.recipes.forEach(recipe => {
+    const button = document.createElement('button');
+    button.className = 'btn';
+    button.style = 'display:block; width:100%; margin-bottom:10px';
+    button.textContent = `${recipe.title} · ${recipe.minutes} minutes`;
+    button.onclick = () => openRecipe(recipe);
+    list.append(button);
+  });
+}
+
+function openRecipe(recipe = null) {
+  editingRecipe = recipe;
+  recipeForm.elements.title.value = recipe?.title ?? '';
+  recipeForm.elements.servings.value = recipe?.servings ?? 3;
+  recipeForm.elements.minutes.value = recipe?.minutes ?? 30;
+  ingredientInputs.replaceChildren();
+  stepInputs.replaceChildren();
+
+  (recipe?.ingredients ?? [{}]).forEach(addRecipeIngredient);
+  (recipe?.steps ?? ['']).forEach(addRecipeStep);
+  showScreen('recipeEditScreen');
+}
+
+function addRecipeIngredient(item = {}) {
+  const row = document.createElement('div');
+  row.style = 'display:flex; gap:6px; margin-bottom:10px';
+  row.innerHTML = `
+    <input type="checkbox" aria-label="Add to shopping list">
+    <input class="field" placeholder="Ingredient" aria-label="Ingredient" required>
+    <input class="field" type="number" min="0.001" step="any"
+      style="width:80px" aria-label="Quantity" required>
+    <input class="field" placeholder="Unit" style="width:80px"
+      aria-label="Unit" required>
+    <button type="button" aria-label="Remove ingredient">×</button>`;
+
+  row.children[1].value = item.name ?? '';
+  row.children[2].value = item.qty ?? 1;
+  row.children[3].value = item.unit ?? 'count';
+  row.lastElementChild.onclick = () => row.remove();
+  ingredientInputs.append(row);
+}
+
+function addRecipeStep(text = '') {
+  const row = document.createElement('div');
+  row.style = 'display:flex; gap:6px; margin-bottom:10px';
+  row.innerHTML = `
+    <textarea class="field" placeholder="Write a step" aria-label="Step" required></textarea>
+    <button type="button" aria-label="Remove step">×</button>`;
+  row.firstElementChild.value = text;
+  row.lastElementChild.onclick = () => row.remove();
+  stepInputs.append(row);
+}
+
+recipeForm.addEventListener('submit', event => {
+  event.preventDefault();
+  const rows = [...ingredientInputs.children];
+  const addingToShop = event.submitter?.value === 'shop';
+
+  if (addingToShop && !rows.some(row => row.children[0].checked)) {
+    showToast('Check the ingredients you want to add.');
+    return;
+  }
+
+  const recipe = {
+    title: recipeForm.elements.title.value.trim(),
+    servings: Number(recipeForm.elements.servings.value),
+    minutes: Number(recipeForm.elements.minutes.value),
+    ingredients: rows.map(row => ({
+      name: row.children[1].value.trim(),
+      qty: Number(row.children[2].value),
+      unit: row.children[3].value.trim()
+    })),
+    steps: [...stepInputs.querySelectorAll('textarea')].map(input => input.value)
+  };
+
+  if (editingRecipe) Object.assign(editingRecipe, recipe);
+  else data.recipes.push(recipe);
+
+  if (addingToShop) {
+    let id = data.shop.reduce((max, item) => Math.max(max, item.id), Date.now());
+    rows.forEach((row, index) => {
+      if (row.children[0].checked) {
+        data.shop.push({
+          ...recipe.ingredients[index], id: ++id, owner: 'Me', done: false
+        });
+      }
+    });
+  }
+
+  saveData();
+  renderRecipes();
+  if (addingToShop) renderShop();
+  showScreen(addingToShop ? 'shopScreen' : 'recipesScreen');
+});
+
+renderRecipes();
+document.getElementById('newRecipeButton').addEventListener('click', () => {
+  openRecipe();
+});
 
 // People
 let favoriteDraft = [];
