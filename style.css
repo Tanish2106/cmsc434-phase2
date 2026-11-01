@@ -1,18 +1,18 @@
 @font-face {
        font-family: Inter;
-       src: url(fonts/inter-latin-400-normal.woff2);
+       src: url(fonts/Inter_18pt-Regular.ttf);
        font-weight: 400;
 }
 
 @font-face {
        font-family: Inter;
-       src: url(fonts/inter-latin-600-normal.woff2);
+       src: url(fonts/Inter_18pt-SemiBold.ttf);
        font-weight: 600;
 }
 
 @font-face {
        font-family: Inter;
-       src: url(fonts/inter-latin-700-normal.woff2);
+       src: url(fonts/Inter_18pt-Bold.ttf);
        font-weight: 700;
 }
 
@@ -191,8 +191,8 @@ img {
 }
 
 .searchbar button {
-       width: 76px;
-       height: 76px;
+       width: 60px;
+       height: 60px;
        font-size: 32px;
        font-weight: 700;
 }
@@ -331,8 +331,8 @@ img {
 }
 
 .tag.shared {
-       background: var(--accent);
-       color: #fff;
+       background: var(--tint);
+       color: var(--text);
 }
 
 .empty-note {
@@ -719,6 +719,10 @@ img {
        height: 100%;
        padding: 0 52px 0 16px;
        cursor: pointer;
+}
+
+.dropdown select:focus {
+       outline: none;
 }
 
 .dropdown .dropdown-arrow {

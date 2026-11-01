@@ -44,8 +44,8 @@ function seedData() {
       makeItem('Onions', 3, 'count', 'Pantry', 'Shared', 14),
     ],
     shop: [
-      { id: 101, name: 'Chana (chickpeas)', qty: 2, unit: 'count', done: false },
-      { id: 102, name: 'Onions', qty: 3, unit: 'count', done: false },
+      { id: 101, name: 'Chana (chickpeas)', qty: 2, unit: 'count', owner: 'Shared', done: false },
+      { id: 102, name: 'Onions', qty: 3, unit: 'count', owner: 'Shared', done: false },
     ],
     people: [
       { id: 151, name: 'Me', allergies: [], diet: 'None', favorites: [] },

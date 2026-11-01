@@ -352,7 +352,7 @@ document.getElementById('deleteItem').addEventListener('click', () => {
 });
 
 // Shop
-function renderShop() { 
+function renderShop() {
   const list = document.getElementById('BodyShoppingList');
   if (!data.shop.length) {
     list.innerHTML = '<div class="empty-note">Your list is empty.</div>';
@@ -372,7 +372,7 @@ function renderShop() {
         <button class="checkbox" data-action="toggle" aria-label="Check off">${entry.done ? '✓' : ''}</button>
         <div class="info">
           <div class="name">${entry.name}</div>
-          <div class="meta">${formatQty(entry.qty)}${unit} · ${homeText} · ${escapeText(entry.owner || 'Shared')}</div>
+          <div class="meta"><span class="tag ${entry.owner === 'Shared' ? 'shared' : 'me'}">${entry.owner || 'Me'}</span>${formatQty(entry.qty)}${unit} · ${homeText}</div>
         </div>
         <button type="button" class="btn ghost" data-action="remove">Remove</button>
       </div>`;
@@ -385,9 +385,9 @@ document.getElementById('BodyShoppingList').addEventListener('click', (event) =>
   const btn = event.target.closest('[data-action]');
   if (!btn) return;
   const entry = data.shop.find(candidate => candidate.id === Number(btn.closest('.row').dataset.id));
-  if(btn.dataset.action === 'remove') {
+  if (btn.dataset.action === 'remove') {
     data.shop = data.shop.filter(item => item.id !== entry.id);
-  }else {
+  } else {
     entry.done = !entry.done;
   }
   saveData();
@@ -397,11 +397,12 @@ document.getElementById('BodyShoppingList').addEventListener('click', (event) =>
 
 const shopForm = document.getElementById('shopForm');
 UNITS.forEach(unit => {
-  shopForm.elements.unit.add(new Option (unit,unit));
+  shopForm.elements.unit.add(new Option(unit, unit));
 });
 document.querySelectorAll('#shopAdd, #shopAddBottom').forEach(button => {
   button.addEventListener('click', () => {
     shopForm.reset();
+    selectChoice('shopOwner', 'Me');
     shopForm.elements.unit.value = data.settings.defaultUnit;
     showScreen('shopAddScreen');
   });
@@ -415,7 +416,7 @@ shopForm.addEventListener('submit', (event) => {
   const fields = shopForm.elements;
   const name = fields.itemName.value.trim();
 
-  if(!name){
+  if (!name) {
     showToast('Give the name of item');
     return;
   }
@@ -424,12 +425,16 @@ shopForm.addEventListener('submit', (event) => {
     name,
     qty: Number(fields.qty.value),
     unit: fields.unit.value,
-    owner: fields.owner.value.trim() || 'Me',
+    owner: selectedChoice('shopOwner'),
     done: false
   });
   saveData();
   renderShop();
   showScreen('shopScreen');
+});
+
+shopForm.addEventListener('reset', () => {
+  selectChoice('shopOwner', 'Me');
 });
 
 data.recipes ??= [];
@@ -707,13 +712,15 @@ document.getElementById('deletePerson').addEventListener('click', () => {
   const id = Number(document.getElementById('personId').value);
   const person = data.people.find(member => member.id === id);
   openModal('Remove ' + person.name + '?', 'This removes their profile and food preferences.', [
-    { label: 'Remove', primary: true, onClick: () => {
-      data.people = data.people.filter(member => member.id !== id);
-      saveData();
-      showScreen('peopleScreen');
-      showToast('Member removed');
-    } },
-    { label: 'Cancel', onClick: () => {} },
+    {
+      label: 'Remove', primary: true, onClick: () => {
+        data.people = data.people.filter(member => member.id !== id);
+        saveData();
+        showScreen('peopleScreen');
+        showToast('Member removed');
+      }
+    },
+    { label: 'Cancel', onClick: () => { } },
   ]);
 });
 

@@ -129,9 +129,11 @@
           <select name="unit" class="field"></select>
         </label>
 
-        <label class="field-label">Whose
-          <input name="owner" class="field text-input" value="Me">
-        </label>
+        <span class="field-label">Whose</span>
+        <div class="choice" id="shopOwner" role="radiogroup" aria-label="Whose item">
+          <button type="button" data-value="Me" class="active">Me</button>
+          <button type="button" data-value="Shared">Shared</button>
+        </div>
         <div class="actions">
           <button type="submit" class="btn primary">Save</button>
           <button type="reset" class="btn ghost">Reset</button>
