@@ -358,8 +358,10 @@ img {
 }
 
 .quantity {
-       min-width: 96px;
-       height: 64px;
+       width: 124px;
+       text-align: center;
+       flex: none;
+       height: 52px;
        padding: 0 6px;
        border-radius: 14px;
        font-weight: 700;
