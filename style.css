@@ -987,3 +987,16 @@ select.field {
 #recipeList {
        padding: 0 24px;
 }
+
+.actions {
+       scroll-margin-bottom: 24px;
+}
+
+#device.keyboard-open .form {
+       padding-bottom: 24px;
+}
+
+#addForm .field-row,
+#addForm .choice {
+       margin-bottom: 12px;
+}

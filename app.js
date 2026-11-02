@@ -860,10 +860,19 @@ document.addEventListener('focusin', (event) => {
   if (event.target.classList.contains('text-input')) showKeyboard();
 });
 document.addEventListener('focusout', (event) => {
-  if (event.target.classList.contains('text-input')) hideKeyboard();
+  // tapping on save while keyboard is open saves it in one go, do not need to tap to hide keyboard and then tap to save itm
+  if (!event.target.classList.contains('text-input')) return;
+  const keyboard = document.getElementById('keyboard');
+  keyboard.hidden = true;
+  document.addEventListener('click', () => {
+    if (keyboard.hidden) hideKeyboard();
+  }, { once: true });
 });
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter' && event.target.classList.contains('text-input')) event.target.blur();
+  if (event.key === 'Enter' && event.target.classList.contains('text-input')) {
+    event.target.blur();
+    hideKeyboard();
+  }
 });
 
 // Modal
