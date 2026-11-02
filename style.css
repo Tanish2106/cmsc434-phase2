@@ -701,6 +701,7 @@ img {
        display: flex;
        align-items: center;
        padding: 0;
+       background: var(--field) url(icons/chevron-down.svg) no-repeat right 16px center;
 }
 
 .dropdown select {
@@ -721,12 +722,10 @@ img {
        outline: none;
 }
 
-.dropdown .dropdown-arrow {
-       position: absolute;
-       right: 16px;
-       pointer-events: none;
-       font-size: 32px;
-       line-height: 1;
+select.field {
+       appearance: none;
+       background: var(--field) url(icons/chevron-down.svg) no-repeat right 16px center;
+       padding-right: 52px;
 }
 
 .choice {
@@ -983,4 +982,8 @@ img {
 .search-button img {
        width: 40px;
        height: 40px;
+}
+
+#recipeList {
+       padding: 0 24px;
 }
