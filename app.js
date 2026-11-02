@@ -71,7 +71,6 @@ function showScreen(id) {
   document.querySelectorAll('.tab').forEach(tabButton => tabButton.classList.toggle('active', tabButton.dataset.tab === tab));
   closeNumpad();
   hideKeyboard();
-  document.getElementById('personForm').classList.remove('keyboard-space');
 }
 
 document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => showScreen(tab.dataset.tab + 'Screen')));
@@ -837,29 +836,34 @@ document.getElementById('numpadDone').addEventListener('click', () => {
 document.getElementById('numpad').querySelectorAll('.keys button').forEach(key => key.addEventListener('click', () => {
   if (key.classList.contains('backspace')) numpadText = numpadText.slice(0, -1);
   else if (key.textContent === '.' && numpadText.includes('.')) return;
-  else if (numpadText.length < 6) numpadText += key.textContent;
+  // up to 3 digits without considering decimal point
+  else if (numpadText.replace('.', '').length < 3) numpadText += key.textContent;
   document.getElementById('numpadTitle').textContent = `${numpadLabel}: ${numpadText || '0'}`;
 }));
 
 // On-screen keyboard image
 function showKeyboard() {
   document.getElementById('keyboard').hidden = false;
-  const form = document.getElementById('personForm');
-  if (form.contains(document.activeElement)) {
-    // Leave room to scroll the focused field above the keyboard image.
-    form.classList.add('keyboard-space');
-    document.activeElement.scrollIntoView({ block: 'start' });
-  }
+  document.getElementById('device').classList.add('keyboard-open');
+  const form = document.activeElement?.closest('form');
+  const actions = form?.querySelector('.actions');
+  if (actions) actions.scrollIntoView({ block: 'nearest' });
+  document.activeElement.scrollIntoView({ block: 'nearest' });
 }
 
 function hideKeyboard() {
   document.getElementById('keyboard').hidden = true;
+  document.getElementById('device').classList.remove('keyboard-open');
 }
 
-document.querySelectorAll('.text-input').forEach(input => {
-  input.addEventListener('focus', showKeyboard);
-  input.addEventListener('blur', hideKeyboard);
-  input.addEventListener('keydown', (event) => { if (event.key === 'Enter') input.blur(); });
+document.addEventListener('focusin', (event) => {
+  if (event.target.classList.contains('text-input')) showKeyboard();
+});
+document.addEventListener('focusout', (event) => {
+  if (event.target.classList.contains('text-input')) hideKeyboard();
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' && event.target.classList.contains('text-input')) event.target.blur();
 });
 
 // Modal

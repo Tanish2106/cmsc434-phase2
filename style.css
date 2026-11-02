@@ -358,7 +358,7 @@ img {
 }
 
 .quantity {
-       width: 124px;
+       width: 140px;
        text-align: center;
        flex: none;
        height: 52px;
@@ -434,10 +434,6 @@ img {
 .profile-form>.field,
 .profile-form .small-entry {
        margin-bottom: 8px;
-}
-
-.profile-form.keyboard-space {
-       padding-bottom: 350px;
 }
 
 .profile-form .field,
@@ -915,6 +911,10 @@ img {
        width: 640px;
        z-index: 20;
        border-top: 2px solid var(--border);
+}
+
+#device.keyboard-open .screen {
+       bottom: 330px;
 }
 
 /* Modal */
