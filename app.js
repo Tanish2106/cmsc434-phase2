@@ -403,6 +403,7 @@ UNITS.forEach(unit => {
 document.querySelectorAll('#shopAdd, #shopAddBottom').forEach(button => {
   button.addEventListener('click', () => {
     shopForm.reset();
+    document.getElementById('shopNameError').hidden = true;
     selectChoice('shopOwner', 'Me');
     shopForm.elements.unit.value = data.settings.defaultUnit;
     showScreen('shopAddScreen');
@@ -418,7 +419,9 @@ shopForm.addEventListener('submit', (event) => {
   const name = fields.itemName.value.trim();
 
   if (!name) {
-    showToast('Give the name of item');
+    //replace toast with an error msg for consistency
+    document.getElementById('shopNameError').hidden = false;
+    fields.itemName.focus();
     return;
   }
   data.shop.push({
@@ -436,6 +439,7 @@ shopForm.addEventListener('submit', (event) => {
 
 shopForm.addEventListener('reset', () => {
   selectChoice('shopOwner', 'Me');
+  document.getElementById('shopNameError').hidden = true;
 });
 
 data.recipes ??= [];
