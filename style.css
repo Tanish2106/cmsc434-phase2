@@ -910,7 +910,6 @@ select.field {
        bottom: 0;
        width: 640px;
        z-index: 20;
-       border-top: 2px solid var(--border);
 }
 
 #device.keyboard-open .screen {
@@ -1003,4 +1002,8 @@ select.field {
 }
 .field-row .qty {
        width: 96px;
+}
+.field-row .choice {
+       width: 288px;
+       margin-bottom: 0;
 }

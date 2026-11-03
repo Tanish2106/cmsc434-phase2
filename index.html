@@ -123,18 +123,21 @@
           <input name="itemName" class="field full-width text-input">
         </label>
 
-        <label class="field-label">Quantity
-          <input name="qty" class="field qty" type="number" min="0.01" step="any" value="1">
-        </label>
+        <!-- making the shopping list add item consistnt with the kitchen, adding steppers, numpad -->
+        <div class="field-row">
+          <span class="field-label inline">Quantity</span>
+          <button type="button" class="stepper-button" data-step="-1">-</button>
+          <input name="qty" class="field qty text-input number-input" type="text" value="1">
+          <button type="button" class="stepper-button" data-step="1">+</button>
+          <div class="field dropdown wide"><select name="unit"></select></div>
+        </div>
 
-        <label class="field-label">Unit
-          <select name="unit" class="field"></select>
-        </label>
-
-        <span class="field-label">Whose</span>
-        <div class="choice" id="shopOwner" role="radiogroup" aria-label="Whose item">
-          <button type="button" data-value="Me" class="active">Me</button>
-          <button type="button" data-value="Shared">Shared</button>
+        <div class="field-row">
+          <span class="field-label inline">Whose</span>
+          <div class="choice" id="shopOwner">
+            <button type="button" data-value="Me" class="active">Me</button>
+            <button type="button" data-value="Shared">Shared</button>
+          </div>
         </div>
         <div class="actions">
           <button type="submit" class="btn primary">Save</button>
