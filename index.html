@@ -21,7 +21,7 @@
       </header>
 
       <div class="searchbar" id="searchbar" hidden>
-        <input id="searchInput" class="text-input" type="text" placeholder="Search items…" autocomplete="off">
+        <input id="searchInput" class="text-input" type="text" placeholder="Search items" autocomplete="off">
         <button id="searchClear" aria-label="Close search">✕</button>
       </div>
 
@@ -56,7 +56,9 @@
 
         <div class="field-row">
           <label class="field-label inline" for="itemQuantity">Quantity</label>
-          <input id="itemQuantity" class="field qty" type="text" value="1" readonly aria-label="Quantity (tap to type)">
+          <button type="button" class="stepper-button" data-step="-1" aria-label="Decrease">-</button>
+          <input id="itemQuantity" class="field qty text-input number-input" type="text" inputmode="decimal" value="1" aria-label="Quantity">
+          <button type="button" class="stepper-button" data-step="1" aria-label="Increase">+</button>
           <div class="field dropdown wide"><select id="itemUnit" aria-label="Unit"></select></div>
         </div>
 
@@ -264,8 +266,8 @@
         <label class="field-label" for="shopOrder">Shopping list order</label>
         <select id="shopOrder" class="field full-width">
           <option value="added">Order added</option>
-          <option value="name">Item name (A–Z)</option>
-          <option value="owner">Owner (A–Z)</option>
+          <option value="name">Item name (A-Z)</option>
+          <option value="owner">Owner (A-Z)</option>
         </select>
         <h2 class="section">Shopping reminder</h2>
         <label class="reminder-choice"><input type="checkbox" id="reminderEnabled"> Remind me to shop</label>

@@ -2,8 +2,8 @@ const LOCATIONS = ['Fridge', 'Freezer', 'Pantry'];
 const UNITS = ['count', 'oz', 'lb', 'cups', 'gal', 'loaf', 'bag', 'slices', 'box'];
 const ALLERGENS = ['None', 'Dairy', 'Eggs', 'Peanuts', 'Tree nuts', 'Gluten', 'Soy', 'Fish', 'Shellfish'];
 
-// How much one tap of − / + changes an item, by unit
-const STEP_SIZE = { count: 1, oz: 4, lb: 0.5, cups: 0.5, gal: 0.25, loaf: 1, bag: 1, slices: 1, box: 1 };
+// How much one tap of - / + changes an item, by unit
+const STEP_SIZE = { count: 1, oz: 4, lb: 0.5, cups: 0.5, gal: 0.5, loaf: 1, bag: 1, slices: 1, box: 1 };
 const DEFAULT_SHOP_QTY = { count: 1, oz: 16, lb: 1, cups: 1, gal: 1, loaf: 1, bag: 1, slices: 8, box: 1 };
 
 function todayISO(offsetDays) {

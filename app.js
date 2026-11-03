@@ -108,7 +108,7 @@ function renderKitchen() {
   });
 
   if (!items.length) {
-    html = `<div class="empty-note">No items match “${searchText}”.</div>`;
+    html = `<div class="empty-note">No items match "${searchText}".</div>`;
   }
 
   list.innerHTML = html;
@@ -138,7 +138,7 @@ function itemRow(item) {
         </div>
       </button>
       <div class="stepper">
-        <button class="stepper-button" data-action="decrease" aria-label="Decrease">−</button>
+        <button class="stepper-button" data-action="decrease" aria-label="Decrease">-</button>
         <button class="quantity" data-action="edit-quantity" aria-label="Edit quantity"><span class="value">${formatQty(item.qty)}</span>${unit}</button>
         <button class="stepper-button" data-action="increase" aria-label="Increase">+</button>
       </div>
@@ -289,11 +289,13 @@ document.getElementById('addItemButton').addEventListener('click', () => openIte
 
 document.getElementById('resetForm').addEventListener('click', () => openItemForm(null));
 
-document.getElementById('itemQuantity').addEventListener('click', () => {
-  openNumpad('Quantity', document.getElementById('itemQuantity').value, (value) => {
-    document.getElementById('itemQuantity').value = formatQty(value);
-  });
-});
+document.querySelectorAll('.field-row [data-step]').forEach(button => button.addEventListener('click', () => {
+  const row = button.closest('.field-row');
+  const box = row.querySelector('.qty');
+  const step = STEP_SIZE[row.querySelector('select').value] || 1;
+  const value = (parseFloat(box.value) || 0) + Number(button.dataset.step) * step;
+  box.value = formatQty(Math.min(999, Math.max(0, value)));
+}));
 
 document.getElementById('saveItem').addEventListener('click', () => {
   const name = document.getElementById('itemName').value.trim();
@@ -843,7 +845,10 @@ document.getElementById('numpad').querySelectorAll('.keys button').forEach(key =
 
 // On-screen keyboard image
 function showKeyboard() {
-  document.getElementById('keyboard').hidden = false;
+  const keyboard = document.getElementById('keyboard');
+  // normal keyboard or numpad based on focused element requiring num input or not
+  keyboard.src = document.activeElement.classList.contains('number-input') ? 'icons/keyboard-numbers.png' : 'icons/keyboard.png';
+  keyboard.hidden = false;
   document.getElementById('device').classList.add('keyboard-open');
   const form = document.activeElement?.closest('form');
   const actions = form?.querySelector('.actions');
@@ -897,3 +902,10 @@ function openModal(title, text, buttons) {
 renderKitchen();
 renderShop();
 renderReminder();
+
+// quantity allowed is up to 3 digits (123), or up to 2 digits with one decimal (12.5)
+document.addEventListener('input', (event) => {
+  if (!event.target.classList.contains('number-input')) return;
+  // matches digits 0-9, either 1 or 2 digits maybe followed by decimal with 1 digit, or 3 digits with no decimal point
+  event.target.value = event.target.value.match(/^(\d{1,2}\.\d?|\d{0,3})/)[0];
+});

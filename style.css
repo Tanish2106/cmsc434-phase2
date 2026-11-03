@@ -339,7 +339,7 @@ img {
        padding: 28px 24px;
 }
 
-/* − / + stepper */
+/* - / + stepper */
 .stepper {
        display: flex;
        align-items: center;
@@ -353,6 +353,7 @@ img {
        line-height: 1;
        width: 52px;
        height: 52px;
+       padding-bottom: 3px;
        color: var(--text);
        background: var(--bg);
 }
@@ -999,4 +1000,7 @@ select.field {
 #addForm .field-row,
 #addForm .choice {
        margin-bottom: 12px;
+}
+.field-row .qty {
+       width: 96px;
 }
