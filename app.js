@@ -71,7 +71,6 @@ function showScreen(id) {
   document.querySelectorAll('.tab').forEach(tabButton => tabButton.classList.toggle('active', tabButton.dataset.tab === tab));
   closeNumpad();
   hideKeyboard();
-  document.getElementById('personForm').classList.remove('keyboard-space');
 }
 
 document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => showScreen(tab.dataset.tab + 'Screen')));
@@ -109,7 +108,7 @@ function renderKitchen() {
   });
 
   if (!items.length) {
-    html = `<div class="empty-note">No items match “${searchText}”.</div>`;
+    html = `<div class="empty-note">No items match "${searchText}".</div>`;
   }
 
   list.innerHTML = html;
@@ -139,7 +138,7 @@ function itemRow(item) {
         </div>
       </button>
       <div class="stepper">
-        <button class="stepper-button" data-action="decrease" aria-label="Decrease">−</button>
+        <button class="stepper-button" data-action="decrease" aria-label="Decrease">-</button>
         <button class="quantity" data-action="edit-quantity" aria-label="Edit quantity"><span class="value">${formatQty(item.qty)}</span>${unit}</button>
         <button class="stepper-button" data-action="increase" aria-label="Increase">+</button>
       </div>
@@ -290,11 +289,13 @@ document.getElementById('addItemButton').addEventListener('click', () => openIte
 
 document.getElementById('resetForm').addEventListener('click', () => openItemForm(null));
 
-document.getElementById('itemQuantity').addEventListener('click', () => {
-  openNumpad('Quantity', document.getElementById('itemQuantity').value, (value) => {
-    document.getElementById('itemQuantity').value = formatQty(value);
-  });
-});
+document.querySelectorAll('.field-row [data-step]').forEach(button => button.addEventListener('click', () => {
+  const row = button.closest('.field-row');
+  const box = row.querySelector('.qty');
+  const step = STEP_SIZE[row.querySelector('select').value] || 1;
+  const value = (parseFloat(box.value) || 0) + Number(button.dataset.step) * step;
+  box.value = formatQty(Math.min(999, Math.max(0, value)));
+}));
 
 document.getElementById('saveItem').addEventListener('click', () => {
   const name = document.getElementById('itemName').value.trim();
@@ -352,7 +353,7 @@ document.getElementById('deleteItem').addEventListener('click', () => {
 });
 
 // Shop
-function renderShop() { 
+function renderShop() {
   const list = document.getElementById('BodyShoppingList');
   if (!data.shop.length) {
     list.innerHTML = '<div class="empty-note">Your list is empty.</div>';
@@ -372,7 +373,7 @@ function renderShop() {
         <button class="checkbox" data-action="toggle" aria-label="Check off">${entry.done ? '✓' : ''}</button>
         <div class="info">
           <div class="name">${entry.name}</div>
-          <div class="meta">${formatQty(entry.qty)}${unit} · ${homeText} · ${escapeText(entry.owner || 'Shared')}</div>
+          <div class="meta"><span class="tag ${entry.owner === 'Shared' ? 'shared' : 'me'}">${entry.owner || 'Me'}</span>${formatQty(entry.qty)}${unit} · ${homeText}</div>
         </div>
       </div>`;
   }).join('');
@@ -403,11 +404,13 @@ document.querySelector('#shopScreen .removeButton').addEventListener('click', ()
 
 const shopForm = document.getElementById('shopForm');
 UNITS.forEach(unit => {
-  shopForm.elements.unit.add(new Option (unit,unit));
+  shopForm.elements.unit.add(new Option(unit, unit));
 });
 document.querySelectorAll('#shopAdd, #shopAddBottom').forEach(button => {
   button.addEventListener('click', () => {
     shopForm.reset();
+    document.getElementById('shopNameError').hidden = true;
+    selectChoice('shopOwner', 'Me');
     shopForm.elements.unit.value = data.settings.defaultUnit;
     showScreen('shopAddScreen');
   });
@@ -421,8 +424,10 @@ shopForm.addEventListener('submit', (event) => {
   const fields = shopForm.elements;
   const name = fields.itemName.value.trim();
 
-  if(!name){
-    showToast('Give the name of item');
+  if (!name) {
+    //replace toast with an error msg for consistency
+    document.getElementById('shopNameError').hidden = false;
+    fields.itemName.focus();
     return;
   }
   data.shop.push({
@@ -430,12 +435,17 @@ shopForm.addEventListener('submit', (event) => {
     name,
     qty: Number(fields.qty.value),
     unit: fields.unit.value,
-    owner: fields.owner.value.trim() || 'Me',
+    owner: selectedChoice('shopOwner'),
     done: false
   });
   saveData();
   renderShop();
   showScreen('shopScreen');
+});
+
+shopForm.addEventListener('reset', () => {
+  selectChoice('shopOwner', 'Me');
+  document.getElementById('shopNameError').hidden = true;
 });
 
 data.recipes ??= [];
@@ -713,13 +723,15 @@ document.getElementById('deletePerson').addEventListener('click', () => {
   const id = Number(document.getElementById('personId').value);
   const person = data.people.find(member => member.id === id);
   openModal('Remove ' + person.name + '?', 'This removes their profile and food preferences.', [
-    { label: 'Remove', primary: true, onClick: () => {
-      data.people = data.people.filter(member => member.id !== id);
-      saveData();
-      showScreen('peopleScreen');
-      showToast('Member removed');
-    } },
-    { label: 'Cancel', onClick: () => {} },
+    {
+      label: 'Remove', primary: true, onClick: () => {
+        data.people = data.people.filter(member => member.id !== id);
+        saveData();
+        showScreen('peopleScreen');
+        showToast('Member removed');
+      }
+    },
+    { label: 'Cancel', onClick: () => { } },
   ]);
 });
 
@@ -836,29 +848,46 @@ document.getElementById('numpadDone').addEventListener('click', () => {
 document.getElementById('numpad').querySelectorAll('.keys button').forEach(key => key.addEventListener('click', () => {
   if (key.classList.contains('backspace')) numpadText = numpadText.slice(0, -1);
   else if (key.textContent === '.' && numpadText.includes('.')) return;
-  else if (numpadText.length < 6) numpadText += key.textContent;
+  // up to 3 digits without considering decimal point
+  else if (numpadText.replace('.', '').length < 3) numpadText += key.textContent;
   document.getElementById('numpadTitle').textContent = `${numpadLabel}: ${numpadText || '0'}`;
 }));
 
 // On-screen keyboard image
 function showKeyboard() {
-  document.getElementById('keyboard').hidden = false;
-  const form = document.getElementById('personForm');
-  if (form.contains(document.activeElement)) {
-    // Leave room to scroll the focused field above the keyboard image.
-    form.classList.add('keyboard-space');
-    document.activeElement.scrollIntoView({ block: 'start' });
-  }
+  const keyboard = document.getElementById('keyboard');
+  // normal keyboard or numpad based on focused element requiring num input or not
+  keyboard.src = document.activeElement.classList.contains('number-input') ? 'icons/keyboard-numbers.png' : 'icons/keyboard.png';
+  keyboard.hidden = false;
+  document.getElementById('device').classList.add('keyboard-open');
+  const form = document.activeElement?.closest('form');
+  const actions = form?.querySelector('.actions');
+  if (actions) actions.scrollIntoView({ block: 'nearest' });
+  document.activeElement.scrollIntoView({ block: 'nearest' });
 }
 
 function hideKeyboard() {
   document.getElementById('keyboard').hidden = true;
+  document.getElementById('device').classList.remove('keyboard-open');
 }
 
-document.querySelectorAll('.text-input').forEach(input => {
-  input.addEventListener('focus', showKeyboard);
-  input.addEventListener('blur', hideKeyboard);
-  input.addEventListener('keydown', (event) => { if (event.key === 'Enter') input.blur(); });
+document.addEventListener('focusin', (event) => {
+  if (event.target.classList.contains('text-input')) showKeyboard();
+});
+document.addEventListener('focusout', (event) => {
+  // tapping on save while keyboard is open saves it in one go, do not need to tap to hide keyboard and then tap to save itm
+  if (!event.target.classList.contains('text-input')) return;
+  const keyboard = document.getElementById('keyboard');
+  keyboard.hidden = true;
+  document.addEventListener('click', () => {
+    if (keyboard.hidden) hideKeyboard();
+  }, { once: true });
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' && event.target.classList.contains('text-input')) {
+    event.target.blur();
+    hideKeyboard();
+  }
 });
 
 // Modal
@@ -883,3 +912,10 @@ function openModal(title, text, buttons) {
 renderKitchen();
 renderShop();
 renderReminder();
+
+// quantity allowed is up to 3 digits (123), or up to 2 digits with one decimal (12.5)
+document.addEventListener('input', (event) => {
+  if (!event.target.classList.contains('number-input')) return;
+  // matches digits 0-9, either 1 or 2 digits maybe followed by decimal with 1 digit, or 3 digits with no decimal point
+  event.target.value = event.target.value.match(/^(\d{1,2}\.\d?|\d{0,3})/)[0];
+});

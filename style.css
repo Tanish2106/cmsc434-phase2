@@ -1,18 +1,18 @@
 @font-face {
        font-family: Inter;
-       src: url(fonts/inter-latin-400-normal.woff2);
+       src: url(fonts/Inter_18pt-Regular.ttf);
        font-weight: 400;
 }
 
 @font-face {
        font-family: Inter;
-       src: url(fonts/inter-latin-600-normal.woff2);
+       src: url(fonts/Inter_18pt-SemiBold.ttf);
        font-weight: 600;
 }
 
 @font-face {
        font-family: Inter;
-       src: url(fonts/inter-latin-700-normal.woff2);
+       src: url(fonts/Inter_18pt-Bold.ttf);
        font-weight: 700;
 }
 
@@ -82,11 +82,11 @@ img {
 
 .field,
 .searchbar input {
-       height: 76px;
+       height: 60px;
        border: 3px solid var(--border);
        background: var(--field);
        font: inherit;
-       font-size: 40px;
+       font-size: 32px;
        color: var(--text);
        min-width: 0;
 }
@@ -105,7 +105,7 @@ img {
 .quantity .unit-label,
 .field-label,
 .tab {
-       font-size: 36px;
+       font-size: 28px;
        color: var(--text2);
 }
 
@@ -118,7 +118,7 @@ img {
        background: var(--bg);
        color: var(--text);
        font-family: Inter, system-ui, sans-serif;
-       font-size: 40px;
+       font-size: 32px;
        line-height: 1.15;
 }
 
@@ -146,7 +146,7 @@ img {
 
 /* Top bar */
 .topbar {
-       height: 104px;
+       height: 84px;
        flex: none;
        display: flex;
        align-items: center;
@@ -157,14 +157,14 @@ img {
 .topbar h1 {
        flex: 1;
        margin: 0;
-       font-size: 56px;
+       font-size: 40px;
        font-weight: 700;
        white-space: nowrap;
 }
 
 .icon-button {
-       width: 84px;
-       height: 84px;
+       width: 72px;
+       height: 72px;
 }
 
 .with-back {
@@ -191,9 +191,9 @@ img {
 }
 
 .searchbar button {
-       width: 76px;
-       height: 76px;
-       font-size: 40px;
+       width: 60px;
+       height: 60px;
+       font-size: 32px;
        font-weight: 700;
 }
 
@@ -202,8 +202,8 @@ img {
        position: absolute;
        right: 24px;
        bottom: 20px;
-       width: 88px;
-       height: 88px;
+       width: 72px;
+       height: 72px;
        border-radius: 50%;
        background: var(--accent);
        box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
@@ -214,8 +214,8 @@ img {
 .segmented {
        display: flex;
        flex: none;
-       margin: 0 20px 4px;
-       height: 76px;
+       margin: 8px 20px 8px;
+       height: 60px;
        border: 3px solid var(--border);
        border-radius: 40px;
        background: var(--bg);
@@ -238,8 +238,8 @@ img {
 /* Section headers */
 .section {
        margin: 0;
-       padding: 30px 24px 10px;
-       font-size: 44px;
+       padding: 18px 24px 6px;
+       font-size: 32px;
        font-weight: 700;
        display: flex;
        align-items: baseline;
@@ -276,7 +276,7 @@ img {
        display: flex;
        align-items: center;
        gap: 10px;
-       min-height: 112px;
+       min-height: 88px;
        padding: 10px 12px 10px 20px;
        border-top: 2px solid var(--divider);
        width: 100%;
@@ -295,7 +295,7 @@ img {
 }
 
 .name {
-       font-size: 40px;
+       font-size: 32px;
        font-weight: 600;
        white-space: nowrap;
        overflow: hidden;
@@ -317,7 +317,7 @@ img {
 
 .tag {
        display: inline-block;
-       font-size: 36px;
+       font-size: 28px;
        font-weight: 600;
        padding: 1px 10px;
        border-radius: 10px;
@@ -331,15 +331,15 @@ img {
 }
 
 .tag.shared {
-       background: var(--accent);
-       color: #fff;
+       background: var(--tint);
+       color: var(--text);
 }
 
 .empty-note {
        padding: 28px 24px;
 }
 
-/* − / + stepper */
+/* - / + stepper */
 .stepper {
        display: flex;
        align-items: center;
@@ -348,22 +348,25 @@ img {
 }
 
 .stepper-button {
-       font-size: 44px;
+       font-size: 32px;
        font-weight: 600;
        line-height: 1;
-       width: 64px;
-       height: 64px;
+       width: 52px;
+       height: 52px;
+       padding-bottom: 3px;
        color: var(--text);
        background: var(--bg);
 }
 
 .quantity {
-       min-width: 96px;
-       height: 64px;
+       width: 140px;
+       text-align: center;
+       flex: none;
+       height: 52px;
        padding: 0 6px;
        border-radius: 14px;
        font-weight: 700;
-       font-size: 38px;
+       font-size: 32px;
        border: 3px solid transparent;
        white-space: nowrap;
 }
@@ -374,7 +377,7 @@ img {
 
 /* Expiring soon rows: one line, no stepper */
 .row.compact {
-       min-height: 96px;
+       min-height: 64px;
        gap: 12px;
        padding: 10px 14px 10px 18px;
 }
@@ -414,14 +417,14 @@ img {
        padding-bottom: 24px;
 }
 
-.profile-form > .field,
-.settings-form > .field {
+.profile-form>.field,
+.settings-form>.field {
        margin-bottom: 12px;
 }
 
 .profile-form .field-label,
 .settings-form .field-label {
-       font-size: 36px;
+       font-size: 28px;
        margin-bottom: 6px;
 }
 
@@ -429,29 +432,25 @@ img {
        margin-bottom: 4px;
 }
 
-.profile-form > .field,
+.profile-form>.field,
 .profile-form .small-entry {
        margin-bottom: 8px;
-}
-
-.profile-form.keyboard-space {
-       padding-bottom: 350px;
 }
 
 .profile-form .field,
 .settings-form .field {
        height: 64px;
-       font-size: 36px;
+       font-size: 28px;
 }
 
 .profile-form .btn,
 .settings-form .btn {
        height: 64px;
-       font-size: 36px;
+       font-size: 28px;
 }
 
 .settings-form .section {
-       font-size: 36px;
+       font-size: 28px;
        margin: 16px 0;
        padding: 0;
 }
@@ -492,17 +491,17 @@ img {
        padding: 8px 12px;
        border: 2px solid var(--text);
        border-radius: 12px;
-       font-size: 36px;
+       font-size: 28px;
        overflow-wrap: anywhere;
        max-width: 100%;
 }
 
-.allergy-tag input:checked + span {
+.allergy-tag input:checked+span {
        color: #fff;
        background: var(--accent);
 }
 
-.allergy-tag input:focus-visible + span {
+.allergy-tag input:focus-visible+span {
        outline: 3px solid var(--text);
        outline-offset: 3px;
 }
@@ -517,14 +516,14 @@ img {
        flex: 1;
        min-width: 0;
        padding: 0 12px;
-       font-size: 36px;
+       font-size: 28px;
 }
 
 .small-entry .btn {
        flex: none;
        height: 64px;
        padding: 0 14px;
-       font-size: 36px;
+       font-size: 28px;
 }
 
 .person-row {
@@ -547,7 +546,7 @@ img {
        flex: none;
        max-width: none;
        height: 60px;
-       font-size: 36px;
+       font-size: 28px;
        padding: 0 20px;
 }
 
@@ -558,7 +557,7 @@ img {
 }
 
 .profile-note {
-       font-size: 36px;
+       font-size: 28px;
        line-height: 1.35;
        color: var(--text2);
        margin: 12px 0 20px;
@@ -570,7 +569,7 @@ img {
 
 .text-button {
        display: block;
-       font-size: 36px;
+       font-size: 28px;
        text-decoration: underline;
        margin: 12px auto;
 }
@@ -579,7 +578,7 @@ img {
        display: flex;
        align-items: center;
        gap: 14px;
-       font-size: 36px;
+       font-size: 28px;
 }
 #shopScreen .removeButton {
        position: fixed;
@@ -593,7 +592,7 @@ img {
 }
 
 .settings-form .field {
-       font-size: 36px;
+       font-size: 28px;
        padding: 0 10px;
 }
 
@@ -606,7 +605,7 @@ img {
        padding: 14px;
        border: 2px solid var(--text);
        border-radius: 14px;
-       font-size: 36px;
+       font-size: 28px;
        text-align: left;
 }
 
@@ -674,7 +673,7 @@ img {
 }
 
 .error {
-       font-size: 36px;
+       font-size: 28px;
        color: var(--warn);
        font-weight: 600;
        margin: -10px 4px 16px;
@@ -707,6 +706,7 @@ img {
        display: flex;
        align-items: center;
        padding: 0;
+       background: var(--field) url(icons/chevron-down.svg) no-repeat right 16px center;
 }
 
 .dropdown select {
@@ -715,7 +715,7 @@ img {
        border: 0;
        background: transparent;
        font: inherit;
-       font-size: 40px;
+       font-size: 32px;
        color: var(--text);
        width: 100%;
        height: 100%;
@@ -723,12 +723,14 @@ img {
        cursor: pointer;
 }
 
-.dropdown .dropdown-arrow {
-       position: absolute;
-       right: 16px;
-       pointer-events: none;
-       font-size: 40px;
-       line-height: 1;
+.dropdown select:focus {
+       outline: none;
+}
+
+select.field {
+       appearance: none;
+       background: var(--field) url(icons/chevron-down.svg) no-repeat right 16px center;
+       padding-right: 52px;
 }
 
 .choice {
@@ -739,10 +741,10 @@ img {
 
 .choice button {
        flex: 1;
-       height: 72px;
+       height: 56px;
        border-radius: 12px;
        border: 3px solid var(--text);
-       font-size: 36px;
+       font-size: 28px;
        font-weight: 600;
        background: var(--bg);
 }
@@ -773,9 +775,9 @@ img {
 .btn {
        flex: 1;
        max-width: 220px;
-       height: 84px;
+       height: 64px;
        border-radius: 14px;
-       font-size: 40px;
+       font-size: 32px;
        font-weight: 700;
 }
 
@@ -864,7 +866,7 @@ img {
 .numpad-title {
        flex: 1;
        text-align: center;
-       font-size: 36px;
+       font-size: 28px;
        font-weight: 600;
        white-space: nowrap;
        overflow: hidden;
@@ -872,12 +874,12 @@ img {
 }
 
 .numpad-cancel {
-       font-size: 36px;
+       font-size: 28px;
        font-weight: 600;
 }
 
 .numpad-done {
-       font-size: 36px;
+       font-size: 28px;
        font-weight: 700;
        color: #fff;
        background: var(--accent);
@@ -896,7 +898,7 @@ img {
 .keys button {
        background: var(--bg);
        border-radius: 12px;
-       font-size: 40px;
+       font-size: 32px;
        font-weight: 600;
 }
 
@@ -912,7 +914,10 @@ img {
        bottom: 0;
        width: 640px;
        z-index: 20;
-       border-top: 2px solid var(--border);
+}
+
+#device.keyboard-open .screen {
+       bottom: 330px;
 }
 
 /* Modal */
@@ -936,13 +941,13 @@ img {
 
 .dialog h2 {
        margin: 0 0 12px;
-       font-size: 44px;
+       font-size: 32px;
        font-weight: 700;
 }
 
 .dialog p {
        margin: 0 0 24px;
-       font-size: 38px;
+       font-size: 32px;
        color: var(--text2);
 }
 
@@ -966,9 +971,43 @@ img {
        z-index: 25;
        background: var(--accent);
        color: #fff;
-       font-size: 36px;
+       font-size: 28px;
        font-weight: 600;
        padding: 18px 24px;
        border-radius: 16px;
        text-align: center;
+}
+
+.icon-button img {
+       width: 56px;
+       height: 56px;
+}
+
+.search-button img {
+       width: 40px;
+       height: 40px;
+}
+
+#recipeList {
+       padding: 0 24px;
+}
+
+.actions {
+       scroll-margin-bottom: 24px;
+}
+
+#device.keyboard-open .form {
+       padding-bottom: 24px;
+}
+
+#addForm .field-row,
+#addForm .choice {
+       margin-bottom: 12px;
+}
+.field-row .qty {
+       width: 96px;
+}
+.field-row .choice {
+       width: 288px;
+       margin-bottom: 0;
 }

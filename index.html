@@ -21,7 +21,7 @@
       </header>
 
       <div class="searchbar" id="searchbar" hidden>
-        <input id="searchInput" class="text-input" type="text" placeholder="Search items…" autocomplete="off">
+        <input id="searchInput" class="text-input" type="text" placeholder="Search items" autocomplete="off">
         <button id="searchClear" aria-label="Close search">✕</button>
       </div>
 
@@ -32,7 +32,8 @@
         <button data-location="Pantry">Pantry</button>
       </div>
 
-      <button id="shoppingReminder" class="reminder-note" hidden>Shopping reminder: check your list before you go.</button>
+      <button id="shoppingReminder" class="reminder-note" hidden>Shopping reminder: check your list before you
+        go.</button>
       <main id="kitchenList" class="scroll"></main>
 
       <button class="search-button" id="searchButton" aria-label="Search items"><img src="icons/search-white.png" alt=""
@@ -55,9 +56,10 @@
 
         <div class="field-row">
           <label class="field-label inline" for="itemQuantity">Quantity</label>
-          <input id="itemQuantity" class="field qty" type="text" value="1" readonly aria-label="Quantity (tap to type)">
-          <div class="field dropdown wide"><select id="itemUnit" aria-label="Unit"></select><span
-              class="dropdown-arrow">▾</span></div>
+          <button type="button" class="stepper-button" data-step="-1" aria-label="Decrease">-</button>
+          <input id="itemQuantity" class="field qty text-input number-input" type="text" inputmode="decimal" value="1" aria-label="Quantity">
+          <button type="button" class="stepper-button" data-step="1" aria-label="Increase">+</button>
+          <div class="field dropdown wide"><select id="itemUnit" aria-label="Unit"></select></div>
         </div>
 
         <label class="field-label">Stored in</label>
@@ -69,19 +71,19 @@
 
         <div class="field-row">
           <span class="field-label inline">Expires in</span>
-          <div class="field dropdown narrow"><select id="expiresIn" aria-label="Number"></select><span
-              class="dropdown-arrow">▾</span></div>
+          <div class="field dropdown narrow"><select id="expiresIn" aria-label="Number"></select></div>
           <div class="field dropdown wide"><select id="expiresUnit" aria-label="Unit of time">
               <option value="days">days</option>
               <option value="weeks">weeks</option>
               <option value="months">months</option>
-            </select><span class="dropdown-arrow">▾</span></div>
+            </select>
+          </div>
         </div>
 
         <div class="two-columns">
           <div class="column">
             <label class="field-label" for="itemAllergen">Allergen</label>
-            <div class="field dropdown"><select id="itemAllergen"></select><span class="dropdown-arrow">▾</span></div>
+            <div class="field dropdown"><select id="itemAllergen"></select></div>
           </div>
           <div class="column">
             <span class="field-label">Whose</span>
@@ -122,18 +124,24 @@
         <label class="field-label">Item Name
           <input name="itemName" class="field full-width text-input">
         </label>
+        <div class="error" id="shopNameError" hidden>Give the item a name first.</div>
 
-        <label class="field-label">Quantity
-          <input name="qty" class="field qty" type="number" min="0.01" step="any" value="1">
-        </label>
+        <!-- making the shopping list add item consistnt with the kitchen, adding steppers, numpad -->
+        <div class="field-row">
+          <span class="field-label inline">Quantity</span>
+          <button type="button" class="stepper-button" data-step="-1">-</button>
+          <input name="qty" class="field qty text-input number-input" type="text" value="1">
+          <button type="button" class="stepper-button" data-step="1">+</button>
+          <div class="field dropdown wide"><select name="unit"></select></div>
+        </div>
 
-        <label class="field-label">Unit
-          <select name="unit" class="field"></select>
-        </label>
-
-        <label class="field-label">Whose
-          <input name="owner" class="field text-input" value="Me">
-        </label>
+        <div class="field-row">
+          <span class="field-label inline">Whose</span>
+          <div class="choice" id="shopOwner">
+            <button type="button" data-value="Me" class="active">Me</button>
+            <button type="button" data-value="Shared">Shared</button>
+          </div>
+        </div>
         <div class="actions">
           <button type="submit" class="btn primary">Save</button>
           <button type="reset" class="btn ghost">Reset</button>
@@ -152,18 +160,16 @@
         <h1>Recipes</h1>
         <button class="btn" type="button" id="newRecipeButton">+ New recipe</button>
       </header>
-      <main style="padding: 20px; flex: 1px;" class="placeholder">
       <div id="recipeList" class="scroll"></div>
     </section>
 
     <!--Recipe editor-->
     <section class="screen" id="recipeEditScreen" data-tab="recipes">
       <header class="topbar with-back">
-        <button class="back" type="button"
-        onclick="showScreen('recipesScreen')" aria-label="Back to recipes">
-      &larr;
-    </button>
-    <h1>Recipe</h1>
+        <button class="back" type="button" onclick="showScreen('recipesScreen')" aria-label="Back to recipes">
+          &larr;
+        </button>
+        <h1>Recipe</h1>
       </header>
       <form id="recipeForm" class="form">
         <label>Title <input name="title" class="field" required></label>
@@ -172,18 +178,18 @@
         <label>Minutes
           <input name="minutes" class="field" type="number" min="1" required>
         </label>
-      <h3>Ingredients</h3>
-      <div id="ingredientInputs"></div>
-      <button type="button" class="btn" onclick="addRecipeIngredient()">+ Ingredient</button>
+        <h3>Ingredients</h3>
+        <div id="ingredientInputs"></div>
+        <button type="button" class="btn" onclick="addRecipeIngredient()">+ Ingredient</button>
 
-      <h3>Steps</h3>
-      <div id="stepInputs"></div>
-      <button type="button" class="btn" onclick="addRecipeStep()">+ Step</button>
+        <h3>Steps</h3>
+        <div id="stepInputs"></div>
+        <button type="button" class="btn" onclick="addRecipeStep()">+ Step</button>
 
-      <div class="actions">
-        <button class="btn primary" type="submit">Save recipe</button>
-        <button class="btn" type="submit" value="shop">Add checked ingredients to Shop</button>
-      </div>
+        <div class="actions">
+          <button class="btn primary" type="submit">Save recipe</button>
+          <button class="btn" type="submit" value="shop">Add checked ingredients to Shop</button>
+        </div>
       </form>
     </section>
 
@@ -192,7 +198,8 @@
     <section class="screen" id="peopleScreen" data-tab="people">
       <header class="topbar">
         <h1>People</h1>
-        <button class="icon-button" id="addPerson" aria-label="Add household member"><img src="icons/add-green.png" alt="" width="80" height="80"></button>
+        <button class="icon-button" id="addPerson" aria-label="Add household member"><img src="icons/add-green.png"
+            alt="" width="80" height="80"></button>
       </header>
       <main class="form">
         <h2 class="section">Household</h2>
@@ -213,19 +220,25 @@
           <legend class="field-label">Allergies</legend>
           <div class="allergy-tags" id="personAllergies"></div>
           <div class="small-entry" id="otherAllergyEntry" hidden>
-            <input id="otherAllergy" class="field text-input" maxlength="30" placeholder="Other allergen" aria-label="Other allergen">
+            <input id="otherAllergy" class="field text-input" maxlength="30" placeholder="Other allergen"
+              aria-label="Other allergen">
             <button type="button" class="btn ghost" id="addAllergy">Add tag</button>
           </div>
         </fieldset>
         <label class="field-label" for="personDiet">Dietary restrictions</label>
         <select id="personDiet" class="field full-width">
-          <option>None</option><option>Vegetarian</option><option>Vegan</option>
-          <option>Pescatarian</option><option>Gluten-free</option><option>Dairy-free</option>
+          <option>None</option>
+          <option>Vegetarian</option>
+          <option>Vegan</option>
+          <option>Pescatarian</option>
+          <option>Gluten-free</option>
+          <option>Dairy-free</option>
         </select>
         <label class="field-label" for="favoriteInput">Favorites</label>
         <div class="favorite-tags" id="personFavorites"></div>
         <div class="small-entry">
-          <input id="favoriteInput" class="field text-input" maxlength="40" placeholder="e.g. Dosa" aria-label="Favorite dish or item">
+          <input id="favoriteInput" class="field text-input" maxlength="40" placeholder="e.g. Dosa"
+            aria-label="Favorite dish or item">
           <button type="button" class="btn ghost" id="addFavorite">Add</button>
         </div>
         <div class="actions">
@@ -254,13 +267,13 @@
         <h1>Settings</h1>
       </header>
       <form id="settingsForm" class="form settings-form">
-        <label class="field-label" for="defaultUnit">New item unit</label>
+        <label class="field-label" for="defaultUnit">Default unit</label>
         <select id="defaultUnit" class="field full-width"></select>
         <label class="field-label" for="shopOrder">Shopping list order</label>
         <select id="shopOrder" class="field full-width">
           <option value="added">Order added</option>
-          <option value="name">Item name (A–Z)</option>
-          <option value="owner">Owner (A–Z)</option>
+          <option value="name">Item name (A-Z)</option>
+          <option value="owner">Owner (A-Z)</option>
         </select>
         <h2 class="section">Shopping reminder</h2>
         <label class="reminder-choice"><input type="checkbox" id="reminderEnabled"> Remind me to shop</label>
@@ -269,8 +282,13 @@
           <div class="column">
             <label class="field-label" for="reminderDay">Day</label>
             <select id="reminderDay" class="field full-width">
-              <option value="0">Sunday</option><option value="1">Monday</option><option value="2">Tuesday</option>
-              <option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option>
+              <option value="0">Sunday</option>
+              <option value="1">Monday</option>
+              <option value="2">Tuesday</option>
+              <option value="3">Wednesday</option>
+              <option value="4">Thursday</option>
+              <option value="5">Friday</option>
+              <option value="6">Saturday</option>
             </select>
           </div>
           <div class="column">
