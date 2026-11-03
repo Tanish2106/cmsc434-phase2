@@ -585,6 +585,11 @@ img {
        bottom:50px;
        left: 200px;
 }
+#shopScreen .addToInventory {
+       position: relative;
+       bottom:85px;
+       left: -150px;
+}
 .reminder-choice input {
        width: 36px;
        height: 36px;

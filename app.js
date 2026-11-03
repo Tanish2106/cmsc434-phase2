@@ -254,7 +254,8 @@ for (let i = 1; i <= 30; i++) {
 }
 fillDropdown(document.getElementById('expiresIn'), expireOptions, 7);
 
-function openItemForm(item) {
+function openItemForm(item, fromShop = false) {
+  if(!fromShop) itemAddToInventory = [];
   const editing = Boolean(item);
   document.getElementById('addTitle').textContent = editing ? 'Edit Item' : 'Add Item';
   document.getElementById('deleteItem').hidden = !editing;
@@ -322,7 +323,18 @@ document.getElementById('saveItem').addEventListener('click', () => {
     item.id = nextId();
     data.items.push(item);
   }
+  if(itemAddToInventory.length) {
+    const transferred = itemAddToInventory.shift();
+    data.shop = data.shop.filter(entry => entry.id !== transferred.id);
+    renderShop();
+  }
   saveData();
+  if(itemAddToInventory.length) {
+    renderKitchen();
+    showToast(`${name} added to ${item.location}`);
+    openFormItem();
+    return;
+  }
 
   currentLocation = item.location;
   document.getElementById('locationFilter').querySelectorAll('button').forEach(button => button.classList.toggle('active', button.dataset.location === item.location));
@@ -393,13 +405,37 @@ document.getElementById('BodyShoppingList').addEventListener('click', (event) =>
   entry.done = !entry.done; 
   saveData();
   renderShop();
-  
 });
 document.querySelector('#shopScreen .removeButton').addEventListener('click', () => {
   data.shop = data.shop.filter(entry => !entry.done);
   saveData();
   renderShop();
-})
+});
+
+let itemAddToInventory = [];
+document.querySelector('#shopScreen .addToInventory').addEventListener('click', () => {
+  itemAddToInventory = data.shop.filter(entry => entry.done);
+  if(!itemAddToInventory.length){
+    showToast("Check an Item First!");
+    return;
+  }
+
+  openFormItem();
+});
+
+function openFormItem(){
+  const entry = itemAddToInventory[0];
+  openItemForm({
+    ...entry,
+    location: 'Pantry',
+    allergen: 'None',
+    expires: todayISO(7)
+  }, true);
+  document.getElementById('editingItemId').value = '';
+  document.getElementById('addTitle').textContent = 'Add to Inventory';
+  document.getElementById('deleteItem').hidden = true;
+
+}
 
 
 const shopForm = document.getElementById('shopForm');
@@ -448,6 +484,8 @@ shopForm.addEventListener('reset', () => {
   document.getElementById('shopNameError').hidden = true;
 });
 
+
+// Recipes
 data.recipes ??= [];
 
 const recipeForm = document.getElementById('recipeForm');
