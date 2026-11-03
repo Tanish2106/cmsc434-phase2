@@ -374,7 +374,6 @@ function renderShop() {
           <div class="name">${entry.name}</div>
           <div class="meta">${formatQty(entry.qty)}${unit} · ${homeText} · ${escapeText(entry.owner || 'Shared')}</div>
         </div>
-        <button type="button" class="btn ghost" data-action="remove">Remove</button>
       </div>`;
   }).join('');
 
@@ -384,15 +383,22 @@ function renderShop() {
 document.getElementById('BodyShoppingList').addEventListener('click', (event) => {
   const btn = event.target.closest('[data-action]');
   if (!btn) return;
-  const entry = data.shop.find(candidate => candidate.id === Number(btn.closest('.row').dataset.id));
-  if(btn.dataset.action === 'remove') {
-    data.shop = data.shop.filter(item => item.id !== entry.id);
-  }else {
-    entry.done = !entry.done;
-  }
+
+  const entry = data.shop.find(
+    candidate => candidate.id === Number(btn.closest('.row').dataset.id)
+  );
+  if(!entry) return;
+
+  entry.done = !entry.done; 
   saveData();
   renderShop();
+  
 });
+document.querySelector('#shopScreen .removeButton').addEventListener('click', () => {
+  data.shop = data.shop.filter(entry => !entry.done);
+  saveData();
+  renderShop();
+})
 
 
 const shopForm = document.getElementById('shopForm');

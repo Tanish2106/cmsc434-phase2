@@ -581,7 +581,11 @@ img {
        gap: 14px;
        font-size: 36px;
 }
-
+#shopScreen .removeButton {
+       position: fixed;
+       bottom:200px;
+       left: 1050px;
+}
 .reminder-choice input {
        width: 36px;
        height: 36px;
