@@ -580,15 +580,10 @@ img {
        gap: 14px;
        font-size: 28px;
 }
-#shopScreen .removeButton {
-       position: relative;
-       bottom:50px;
-       left: 200px;
-}
-#shopScreen .addToInventory {
-       position: relative;
-       bottom:85px;
-       left: -150px;
+#shopScreen .actions .btn {
+       flex: none;
+       max-width: none;
+       padding: 0 28px;
 }
 .reminder-choice input {
        width: 36px;

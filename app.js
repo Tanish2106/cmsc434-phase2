@@ -407,6 +407,11 @@ document.getElementById('BodyShoppingList').addEventListener('click', (event) =>
   renderShop();
 });
 document.querySelector('#shopScreen .removeButton').addEventListener('click', () => {
+  // add toast to both remove and add to inventory button for consistency
+  if (!data.shop.some(entry => entry.done)) {
+    showToast("Check an Item First!");
+    return;
+  }
   data.shop = data.shop.filter(entry => !entry.done);
   saveData();
   renderShop();
@@ -427,12 +432,13 @@ function openFormItem(){
   const entry = itemAddToInventory[0];
   openItemForm({
     ...entry,
-    location: 'Pantry',
+    // pre filled with fridge, prob more frequently used
+    location: 'Fridge',
     allergen: 'None',
     expires: todayISO(7)
   }, true);
   document.getElementById('editingItemId').value = '';
-  document.getElementById('addTitle').textContent = 'Add to Inventory';
+  document.getElementById('addTitle').textContent = 'Add to Kitchen';
   document.getElementById('deleteItem').hidden = true;
 
 }
