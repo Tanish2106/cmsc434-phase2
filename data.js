@@ -52,6 +52,20 @@ function seedData() {
       { id: 152, name: 'Maddie', allergies: [], diet: 'None', favorites: ['Egg curry'] },
       { id: 153, name: "Maddie's child", allergies: ['Peanuts'], diet: 'None', favorites: ['Banana pancakes'] },
     ],
+    recipes: [
+      { title: 'Masala omelette', servings: 1, minutes: 10,
+        ingredients: [
+          { name: 'Eggs', qty: 2, unit: 'count' },
+          { name: 'Onions', qty: 1, unit: 'count' },
+          { name: 'Tomatoes', qty: 1, unit: 'count' },
+        ],
+        steps: [
+          'Chop the onion and tomato.',
+          'Beat the eggs with the cut onion, tomato and a pinch of salt.',
+          'Cook in a hot pan for 2 minutes on each side.',
+        ],
+      },
+    ],
     settings: {
       defaultUnit: 'count',
       shopOrder: 'added',

@@ -859,6 +859,7 @@ document.getElementById('resetDataButton').addEventListener('click', () => {
         saveData();
         renderKitchen();
         renderShop();
+        renderRecipes();
         showScreen('kitchenScreen');
         showToast('Demo data restored');
       }
