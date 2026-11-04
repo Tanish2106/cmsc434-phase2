@@ -69,7 +69,6 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(screen => screen.classList.toggle('active', screen.id === id));
   const tab = document.getElementById(id).dataset.tab;
   document.querySelectorAll('.tab').forEach(tabButton => tabButton.classList.toggle('active', tabButton.dataset.tab === tab));
-  closeNumpad();
   hideKeyboard();
 }
 
@@ -139,7 +138,7 @@ function itemRow(item) {
       </button>
       <div class="stepper">
         <button class="stepper-button" data-action="decrease" aria-label="Decrease">-</button>
-        <button class="quantity" data-action="edit-quantity" aria-label="Edit quantity"><span class="value">${formatQty(item.qty)}</span>${unit}</button>
+        <label class="quantity"><input class="quantity-input text-input number-input" value="${formatQty(item.qty)}" aria-label="Quantity">${unit}</label>
         <button class="stepper-button" data-action="increase" aria-label="Increase">+</button>
       </div>
     </div>`;
@@ -155,7 +154,6 @@ document.getElementById('kitchenList').addEventListener('click', (event) => {
   switch (btn.dataset.action) {
     case 'increase': changeQty(item, 1); break;
     case 'decrease': changeQty(item, -1); break;
-    case 'edit-quantity': openNumpadForRow(item); break;
     case 'edit': openItemForm(item); break;
   }
 });
@@ -168,6 +166,16 @@ function changeQty(item, direction) {
   renderKitchen();
   if (next === 0) offerShopList(item);
 }
+
+// typing a new amount in a row saves it
+document.getElementById('kitchenList').addEventListener('change', (event) => {
+  if (!event.target.classList.contains('quantity-input')) return;
+  const item = data.items.find(candidate => candidate.id === Number(event.target.closest('.row').dataset.id));
+  item.qty = parseFloat(event.target.value) || 0;
+  event.target.value = formatQty(item.qty);
+  saveData();
+  if (item.qty === 0) offerShopList(item);
+});
 
 // quantity hit zero, offer to put item on the shopping list
 function offerShopList(item) {
@@ -853,50 +861,6 @@ document.getElementById('resetDataButton').addEventListener('click', () => {
   ]);
 });
 
-let numpadLabel = '';
-let numpadText = '';
-let numpadOnDone = null;
-
-function openNumpad(label, currentValue, onDone) {
-  hideKeyboard();
-  numpadLabel = label;
-  numpadText = '';
-  numpadOnDone = onDone;
-  document.getElementById('numpadTitle').textContent = `${label}: ${currentValue}`;
-  document.getElementById('numpad').hidden = false;
-}
-
-function closeNumpad() {
-  document.getElementById('numpad').hidden = true;
-  numpadOnDone = null;
-}
-
-function openNumpadForRow(item) {
-  const label = item.name + (item.unit === 'count' ? '' : ` (${item.unit})`);
-  openNumpad(label, formatQty(item.qty), (value) => {
-    item.qty = value;
-    saveData();
-    renderKitchen();
-    if (item.qty === 0) offerShopList(item);
-  });
-}
-
-document.getElementById('numpadCancel').addEventListener('click', closeNumpad);
-
-document.getElementById('numpadDone').addEventListener('click', () => {
-  const onDone = numpadOnDone;
-  closeNumpad();
-  if (onDone && numpadText !== '') onDone(parseFloat(numpadText) || 0);
-});
-
-document.getElementById('numpad').querySelectorAll('.keys button').forEach(key => key.addEventListener('click', () => {
-  if (key.classList.contains('backspace')) numpadText = numpadText.slice(0, -1);
-  else if (key.textContent === '.' && numpadText.includes('.')) return;
-  // up to 3 digits without considering decimal point
-  else if (numpadText.replace('.', '').length < 3) numpadText += key.textContent;
-  document.getElementById('numpadTitle').textContent = `${numpadLabel}: ${numpadText || '0'}`;
-}));
-
 // On-screen keyboard image
 function showKeyboard() {
   const keyboard = document.getElementById('keyboard');
@@ -907,7 +871,9 @@ function showKeyboard() {
   const form = document.activeElement?.closest('form');
   const actions = form?.querySelector('.actions');
   if (actions) actions.scrollIntoView({ block: 'nearest' });
-  document.activeElement.scrollIntoView({ block: 'nearest' });
+  // scrolls to the row when numpad is open, ensuring the item is not hidden by the numpad
+  const target = document.activeElement.closest('.row') || document.activeElement;
+  target.scrollIntoView({ block: 'nearest' });
 }
 
 function hideKeyboard() {

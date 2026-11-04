@@ -841,70 +841,6 @@ select.field {
        background: var(--tint);
 }
 
-#numpad {
-       position: absolute;
-       left: 0;
-       right: 0;
-       bottom: 0;
-       height: 350px;
-       background: var(--tint);
-       z-index: 20;
-       border-top: 2px solid var(--border);
-       display: flex;
-       flex-direction: column;
-}
-
-.numpad-header {
-       height: 76px;
-       display: flex;
-       align-items: center;
-       padding: 0 20px;
-       background: var(--bg);
-       border-bottom: 2px solid var(--divider);
-}
-
-.numpad-title {
-       flex: 1;
-       text-align: center;
-       font-size: 28px;
-       font-weight: 600;
-       white-space: nowrap;
-       overflow: hidden;
-       text-overflow: ellipsis;
-}
-
-.numpad-cancel {
-       font-size: 28px;
-       font-weight: 600;
-}
-
-.numpad-done {
-       font-size: 28px;
-       font-weight: 700;
-       color: #fff;
-       background: var(--accent);
-       padding: 8px 22px;
-       border-radius: 14px;
-}
-
-.keys {
-       flex: 1;
-       display: grid;
-       grid-template-columns: repeat(3, 1fr);
-       gap: 6px;
-       padding: 8px;
-}
-
-.keys button {
-       background: var(--bg);
-       border-radius: 12px;
-       font-size: 32px;
-       font-weight: 600;
-}
-
-.keys .backspace {
-       background: var(--tint2);
-}
 
 /* On-screen keyboard (image) */
 #keyboard {
@@ -1010,4 +946,35 @@ select.field {
 .field-row .choice {
        width: 288px;
        margin-bottom: 0;
+}
+
+.quantity {
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       gap: 6px;
+}
+
+.quantity-input {
+       field-sizing: content;
+       border: 0;
+       background: transparent;
+       font: inherit;
+       text-align: center;
+}
+
+.quantity-input:focus {
+       outline: none;
+}
+
+.quantity:focus-within {
+       border-color: var(--text);
+}
+
+#kitchenList .row {
+       scroll-margin-bottom: 16px;
+}
+
+#device.keyboard-open .search-button {
+       display: none;
 }
