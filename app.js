@@ -887,10 +887,8 @@ document.addEventListener('focusin', (event) => {
 document.addEventListener('focusout', (event) => {
   // tapping on save while keyboard is open saves it in one go, do not need to tap to hide keyboard and then tap to save itm
   if (!event.target.classList.contains('text-input')) return;
-  const keyboard = document.getElementById('keyboard');
-  keyboard.hidden = true;
   document.addEventListener('click', () => {
-    if (keyboard.hidden) hideKeyboard();
+    if (!document.activeElement.classList.contains('text-input')) hideKeyboard();
   }, { once: true });
 });
 document.addEventListener('keydown', (event) => {
