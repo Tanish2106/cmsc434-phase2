@@ -823,13 +823,19 @@ function renderReminder() {
   const now = new Date();
   const time = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
   document.getElementById('shoppingReminder').hidden = !(data.settings.reminder &&
-    Number(data.settings.reminderDay) === now.getDay() && time >= data.settings.reminderTime);
+    Number(data.settings.reminderDay) === now.getDay() && time >= data.settings.reminderTime &&
+    data.settings.reminderDismissed !== now.toDateString());
 }
 
 document.getElementById('reminderEnabled').addEventListener('change', toggleReminderFields);
 document.getElementById('resetSettings').addEventListener('click', fillSettings);
 document.getElementById('householdSettings').addEventListener('click', () => showScreen('peopleScreen'));
-document.getElementById('shoppingReminder').addEventListener('click', () => showScreen('shopScreen'));
+document.getElementById('shoppingReminder').addEventListener('click', () => {
+  // hide the reminder until the next occurence once it's tapped
+  data.settings.reminderDismissed = new Date().toDateString();
+  saveData();
+  showScreen('shopScreen');
+});
 document.getElementById('settingsForm').addEventListener('submit', event => {
   event.preventDefault();
   data.settings = {
