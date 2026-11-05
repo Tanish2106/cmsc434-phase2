@@ -925,7 +925,7 @@ select.field {
 }
 
 #recipeList {
-       padding: 0 24px;
+       padding-top: 8px;
 }
 
 .actions {
@@ -977,4 +977,12 @@ select.field {
 
 #device.keyboard-open .search-button {
        display: none;
+}
+
+#recipeList .name {
+  flex: 1;
+}
+
+#recipeList .tag {
+  background: var(--tint);
 }

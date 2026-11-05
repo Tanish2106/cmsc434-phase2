@@ -161,7 +161,7 @@
     <section class="screen" id="recipesScreen" data-tab="recipes">
       <header class="topbar">
         <h1>Recipes</h1>
-        <button class="btn" type="button" id="newRecipeButton">+ New recipe</button>
+        <button class="icon-button" type="button" id="newRecipeButton" ><img src="icons/add-green.png" alt="" width="80" height="80"></button>
       </header>
       <div id="recipeList" class="scroll"></div>
     </section>
@@ -176,10 +176,10 @@
       </header>
       <form id="recipeForm" class="form">
         <label>Title <input name="title" class="field" required></label>
-        <label>Servings <input name="servings" class="field" type="number" min="1" required>
+        <label>Servings <input name="servings" class="field" type="number" min="1" max="99" required>
         </label>
         <label>Minutes
-          <input name="minutes" class="field" type="number" min="1" required>
+          <input name="minutes" class="field" type="number" min="1" max="999" required>
         </label>
         <h3>Ingredients</h3>
         <div id="ingredientInputs"></div>

@@ -511,16 +511,25 @@ function renderRecipes() {
   const list = document.getElementById('recipeList');
   list.replaceChildren();
 
-  if (!data.recipes.length) list.textContent = 'No recipes yet. Create one.';
+  if (!data.recipes.length) {
+    list.innerHTML = '<p class="empty-note">No recipes yet. Tap + to add one.</p>';
+    return;
+  }
 
+  // same card and rows as  kitchen list for consistency
+  const card = document.createElement('div');
+  card.className = 'card';
   data.recipes.forEach(recipe => {
     const button = document.createElement('button');
-    button.className = 'btn';
-    button.style = 'display:block; width:100%; margin-bottom:10px';
-    button.textContent = `${recipe.title} · ${recipe.minutes} minutes`;
+    button.className = 'row';
+    button.innerHTML = `
+      <span class="name">${escapeText(recipe.title)}</span>
+      <span class="tag">Serves ${recipe.servings}</span>
+      <span class="tag">${recipe.minutes} min</span>`;
     button.onclick = () => openRecipe(recipe);
-    list.append(button);
+    card.append(button);
   });
+  list.append(card);
 }
 
 function openRecipe(recipe = null) {
