@@ -893,6 +893,7 @@ function showKeyboard() {
 function hideKeyboard() {
   document.getElementById('keyboard').hidden = true;
   document.getElementById('device').classList.remove('keyboard-open');
+  renderKitchen();
 }
 
 document.addEventListener('focusin', (event) => {
