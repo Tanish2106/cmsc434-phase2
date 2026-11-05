@@ -585,11 +585,6 @@ img {
        max-width: none;
        padding: 0 28px;
 }
-.reminder-choice input {
-       width: 36px;
-       height: 36px;
-       accent-color: var(--accent);
-}
 
 .settings-form .field {
        font-size: 28px;
@@ -1012,7 +1007,8 @@ select.field {
 }
 
 /* similar checkbox as the shopping list */
-.recipe-row input[type="checkbox"] {
+.recipe-row input[type="checkbox"],
+.reminder-choice input {
        appearance: none;
        display: grid;
        place-items: center;
@@ -1023,12 +1019,14 @@ select.field {
        font: inherit;
 }
 
-.recipe-row input[type="checkbox"]:checked {
+.recipe-row input[type="checkbox"]:checked,
+.reminder-choice input:checked {
        background: var(--accent);
        color: #fff;
 }
 
-.recipe-row input[type="checkbox"]:checked::after {
+.recipe-row input[type="checkbox"]:checked::after,
+.reminder-choice input:checked::after {
        content: "✓";
 }
 
