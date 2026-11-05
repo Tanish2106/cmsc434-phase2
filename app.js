@@ -389,13 +389,16 @@ function renderShop() {
     return;
   }
 
-  const atHome = (name) => data.items.find(item => item.name.toLowerCase() === name.toLowerCase());
+  // adds up every batch of the item in the kitchen, since each batch has its own expiry
+  // kitchen shows each item separately based on the order it was added (default), but at home qty adds them up
+  const atHome = (name) => data.items.filter(item => item.name.toLowerCase() === name.toLowerCase());
   const entries = [...data.shop];
   if (data.settings.shopOrder === 'name') entries.sort((a, b) => a.name.localeCompare(b.name));
   if (data.settings.shopOrder === 'owner') entries.sort((a, b) => (a.owner || 'Shared').localeCompare(b.owner || 'Shared'));
   const rows = entries.map(entry => {
     const home = atHome(entry.name);
-    const homeText = home ? `Home: ${formatQty(home.qty)}${home.unit === 'count' ? '' : ' ' + home.unit}` : 'None at home';
+    const homeQty = home.reduce((total, item) => total + item.qty, 0);
+    const homeText = home.length ? `Home: ${formatQty(homeQty)}${home[0].unit === 'count' ? '' : ' ' + home[0].unit}` : 'None at home';
     const unit = entry.unit === 'count' ? '' : ' ' + entry.unit;
     return `
       <div class="row ${entry.done ? 'done' : ''}" data-id="${entry.id}">
