@@ -375,8 +375,17 @@ document.getElementById('deleteItem').addEventListener('click', () => {
 // Shop
 function renderShop() {
   const list = document.getElementById('BodyShoppingList');
+  // shows what's in the usual list
+  const usualNames = data.usualList ? data.usualList.map(item => item.name).join(', ') : 'nothing saved yet';
+  const usualButtons = `
+    <div class="usual-list">
+      <button class="text-button" onclick="saveUsualList()">Save as usual list</button>
+      <button class="text-button" onclick="addUsualList()">Add usual list</button>
+    </div>
+    <p class="empty-note">Usual list: ${usualNames}</p>`;
+
   if (!data.shop.length) {
-    list.innerHTML = '<div class="empty-note">Your list is empty.</div>';
+    list.innerHTML = '<div class="empty-note">Your list is empty.</div>' + usualButtons;
     return;
   }
 
@@ -398,7 +407,7 @@ function renderShop() {
       </div>`;
   }).join('');
 
-  list.innerHTML = `<h2 class="section">To buy <span class="count">${data.shop.filter(entry => !entry.done).length}</span></h2><div class="card">${rows}</div>`;
+  list.innerHTML = `<h2 class="section">To buy <span class="count">${data.shop.filter(entry => !entry.done).length}</span></h2><div class="card">${rows}</div>` + usualButtons;
 }
 
 document.getElementById('BodyShoppingList').addEventListener('click', (event) => {
@@ -978,4 +987,32 @@ function removeRecipe() {
     },
     { label: 'Cancel', onClick: () => { } },
   ]);
+}
+
+// a saved list to start from
+function saveUsualList() {
+  if (!data.shop.length) {
+    showToast('Your list is empty');
+    return;
+  }
+  data.usualList = data.shop.map(entry => ({ name: entry.name, qty: entry.qty, unit: entry.unit, owner: entry.owner }));
+  saveData();
+  renderShop();
+  showToast('Usual list saved');
+}
+
+// adds the usual list back to the shopping list, skipping items already on it
+function addUsualList() {
+  if (!data.usualList) {
+    showToast('No usual list saved yet');
+    return;
+  }
+  data.usualList.forEach(item => {
+    if (!data.shop.some(entry => entry.name === item.name)) {
+      data.shop.push({ ...item, id: nextId(), done: false });
+    }
+  });
+  saveData();
+  renderShop();
+  showToast('Usual list added');
 }

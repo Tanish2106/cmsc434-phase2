@@ -1075,3 +1075,9 @@ select.field {
        flex: none;
        text-align: center;
 }
+
+.usual-list {
+       display: flex;
+       justify-content: center;
+       gap: 40px;
+}
