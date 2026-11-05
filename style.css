@@ -1079,3 +1079,8 @@ select.field {
        justify-content: center;
        gap: 40px;
 }
+
+.usual-list + .empty-note {
+       padding-top: 0;
+       text-align: center;
+}
