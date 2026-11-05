@@ -643,6 +643,7 @@ function escapeText(text) {
 
 function renderPeople() {
   const list = document.getElementById('peopleList');
+  document.getElementById('householdCount').textContent = data.people.length;
   if (!data.people.length) {
     list.innerHTML = '<p class="empty-note">No household members yet. Tap + to add someone.</p>';
     return;
@@ -651,10 +652,13 @@ function renderPeople() {
     <div class="row person-row" data-person-id="${person.id}">
       <button class="info" data-person-action="edit" aria-label="Edit ${escapeText(person.name)}">
         <div class="name">${escapeText(person.name)}</div>
-        <div class="meta">${escapeText(person.allergies.length ? person.allergies.join(', ') : 'No allergies recorded')}</div>
-        <div class="meta">${escapeText(person.diet === 'None' ? 'No dietary restrictions' : person.diet)}</div>
+        <div class="person-preferences">
+          ${person.allergies.map(allergy => `<span class="tag person-allergy" aria-label="Allergen: ${escapeText(allergy)}">${escapeText(allergy)}</span>`).join('')}
+          ${person.diet !== 'None' ? `<span class="tag person-diet" aria-label="Dietary restriction: ${escapeText(person.diet)}">${escapeText(person.diet)}</span>` : ''}
+          ${!person.allergies.length && person.diet === 'None' ? '<span class="meta">No allergies or diet</span>' : ''}
+        </div>
       </button>
-      <button class="btn ghost" data-person-action="foods">View foods</button>
+      <button class="btn ghost" data-person-action="foods" aria-label="View foods for ${escapeText(person.name)}">Foods</button>
     </div>`).join('');
 }
 
