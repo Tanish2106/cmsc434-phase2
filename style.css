@@ -894,6 +894,7 @@ select.field {
 }
 
 .modal-actions .btn {
+       flex: none;
        max-width: none;
        width: 100%;
 }
@@ -985,4 +986,92 @@ select.field {
 
 #recipeList .tag {
   background: var(--tint);
+}
+
+/* Recipe edit screen */
+.recipe-row {
+       display: flex;
+       align-items: center;
+       gap: 8px;
+       margin-bottom: 12px;
+}
+
+.recipe-row .field {
+       flex: 1;
+       padding: 0 12px;
+}
+
+.recipe-row .qty {
+       flex: none;
+       width: 80px;
+}
+
+.recipe-row .unit {
+       flex: none;
+       width: 160px;
+}
+
+/* similar checkbox as the shopping list */
+.recipe-row input[type="checkbox"] {
+       appearance: none;
+       display: grid;
+       place-items: center;
+       width: 52px;
+       height: 52px;
+       border: 3px solid var(--text);
+       border-radius: 14px;
+       font: inherit;
+}
+
+.recipe-row input[type="checkbox"]:checked {
+       background: var(--accent);
+       color: #fff;
+}
+
+.recipe-row input[type="checkbox"]:checked::after {
+       content: "✓";
+}
+
+.recipe-row textarea.field {
+       field-sizing: content;
+       height: auto;
+       min-height: 60px;
+       padding: 7px 12px;
+       line-height: 40px;
+       resize: none;
+}
+
+#recipeTabs {
+       margin: 4px 0 16px;
+}
+
+.recipe-buttons {
+       display: flex;
+       justify-content: center;
+       gap: 12px;
+       margin: 20px 0 28px;
+}
+
+.recipe-buttons .btn {
+       flex: none;
+       max-width: none;
+       height: 52px;
+       padding: 0 24px;
+}
+
+#stepInputs {
+       counter-reset: step;
+}
+
+.step-number::before {
+       counter-increment: step;
+       content: counter(step) ".";
+       font-size: 28px;
+       font-weight: 600;
+}
+
+.step-number {
+       width: 52px;
+       flex: none;
+       text-align: center;
 }

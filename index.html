@@ -175,23 +175,42 @@
         <h1>Recipe</h1>
       </header>
       <form id="recipeForm" class="form">
-        <label>Title <input name="title" class="field" required></label>
-        <label>Servings <input name="servings" class="field" type="number" min="1" max="99" required>
-        </label>
-        <label>Minutes
-          <input name="minutes" class="field" type="number" min="1" max="999" required>
-        </label>
-        <h3>Ingredients</h3>
-        <div id="ingredientInputs"></div>
-        <button type="button" class="btn" onclick="addRecipeIngredient()">+ Ingredient</button>
+        <label class="field-label">Dish name</label>
+        <input name="title" class="field full-width text-input" required>
+        <div class="field-row">
+          <label class="field-label inline">Serves</label>
+          <!-- max 2 digit servings -->
+          <input name="servings" class="field qty text-input number-input" maxlength="2" required>
+          <label class="field-label inline">Minutes</label>
+          <!-- max 3 digit minutes -->
+          <input name="minutes" class="field qty text-input number-input" maxlength="3" required>
+        </div>
 
-        <h3>Steps</h3>
-        <div id="stepInputs"></div>
-        <button type="button" class="btn" onclick="addRecipeStep()">+ Step</button>
+        <div class="segmented" id="recipeTabs">
+          <button type="button" class="active" onclick="showRecipeTab('ingredients')">Ingredients</button>
+          <button type="button" onclick="showRecipeTab('steps')">Steps</button>
+        </div>
+
+        <div id="ingredients">
+          <div id="ingredientInputs"></div>
+          <div class="recipe-buttons">
+            <button type="button" class="stepper-button" onclick="addRecipeIngredient()">+</button>
+            <button type="button" class="stepper-button" onclick="removeCheckedIngredients()">-</button>
+            <button type="submit" class="btn ghost" value="shop">Add to Shop</button>
+          </div>
+        </div>
+
+        <div id="steps" hidden>
+          <div id="stepInputs"></div>
+          <div class="recipe-buttons">
+            <button type="button" class="stepper-button" onclick="addRecipeStep()">+</button>
+            <button type="button" class="stepper-button" onclick="removeLastStep()">-</button>
+          </div>
+        </div>
 
         <div class="actions">
-          <button class="btn primary" type="submit">Save recipe</button>
-          <button class="btn" type="submit" value="shop">Add checked ingredients to Shop</button>
+          <button type="submit" class="btn primary">Save</button>
+          <button type="button" class="btn ghost" id="deleteRecipe" onclick="removeRecipe()">Delete</button>
         </div>
       </form>
     </section>

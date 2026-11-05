@@ -542,42 +542,39 @@ function openRecipe(recipe = null) {
 
   (recipe?.ingredients ?? [{}]).forEach(addRecipeIngredient);
   (recipe?.steps ?? ['']).forEach(addRecipeStep);
+  document.getElementById('deleteRecipe').hidden = !recipe;
+  showRecipeTab('ingredients');
   showScreen('recipeEditScreen');
 }
 
 function addRecipeIngredient(item = {}) {
   const row = document.createElement('div');
-  row.style = 'display:flex; gap:6px; margin-bottom:10px';
+  row.className = 'recipe-row';
   row.innerHTML = `
     <input type="checkbox" aria-label="Add to shopping list">
-    <input class="field" placeholder="Ingredient" aria-label="Ingredient" required>
-    <input class="field" type="number" min="0.001" step="any"
-      style="width:80px" aria-label="Quantity" required>
-    <input class="field" placeholder="Unit" style="width:80px"
-      aria-label="Unit" required>
-    <button type="button" aria-label="Remove ingredient">×</button>`;
-
-  row.children[1].value = item.name ?? '';
-  row.children[2].value = item.qty ?? 1;
-  row.children[3].value = item.unit ?? 'count';
-  row.lastElementChild.onclick = () => row.remove();
+    <input class="field text-input" placeholder="Ingredient" aria-label="Ingredient">
+    <input class="field qty text-input number-input" aria-label="Quantity">
+    <select class="field unit" aria-label="Unit"></select>`;
+  row.children[1].value = item.name || '';
+  row.children[2].value = item.qty || 1;
+  fillDropdown(row.children[3], UNITS, item.unit || 'count');
   ingredientInputs.append(row);
 }
 
 function addRecipeStep(text = '') {
   const row = document.createElement('div');
-  row.style = 'display:flex; gap:6px; margin-bottom:10px';
+  row.className = 'recipe-row';
   row.innerHTML = `
-    <textarea class="field" placeholder="Write a step" aria-label="Step" required></textarea>
-    <button type="button" aria-label="Remove step">×</button>`;
-  row.firstElementChild.value = text;
-  row.lastElementChild.onclick = () => row.remove();
+    <span class="step-number"></span>
+    <textarea class="field text-input" placeholder="Write a step" aria-label="Step"></textarea>`;
+  row.children[1].value = text;
   stepInputs.append(row);
 }
 
 recipeForm.addEventListener('submit', event => {
   event.preventDefault();
-  const rows = [...ingredientInputs.children];
+  // skip empty rows
+  const rows = [...ingredientInputs.children].filter(row => row.children[1].value.trim());
   const addingToShop = event.submitter?.value === 'shop';
 
   if (addingToShop && !rows.some(row => row.children[0].checked)) {
@@ -594,7 +591,8 @@ recipeForm.addEventListener('submit', event => {
       qty: Number(row.children[2].value),
       unit: row.children[3].value.trim()
     })),
-    steps: [...stepInputs.querySelectorAll('textarea')].map(input => input.value)
+    // trim empt space and ignore empty steps
+    steps: [...stepInputs.querySelectorAll('textarea')].map(input => input.value.trim()).filter(step => step)
   };
 
   if (editingRecipe) Object.assign(editingRecipe, recipe);
@@ -943,3 +941,40 @@ document.addEventListener('input', (event) => {
   // matches digits 0-9, either 1 or 2 digits maybe followed by decimal with 1 digit, or 3 digits with no decimal point
   event.target.value = event.target.value.match(/^(\d{1,2}\.\d?|\d{0,3})/)[0];
 });
+
+function showRecipeTab(tab) {
+  document.getElementById('ingredients').hidden = tab !== 'ingredients';
+  document.getElementById('steps').hidden = tab !== 'steps';
+  const buttons = document.querySelectorAll('#recipeTabs button');
+  buttons[0].classList.toggle('active', tab === 'ingredients');
+  buttons[1].classList.toggle('active', tab === 'steps');
+}
+
+// removes the checked ingredients, similr to Remove on the shopping list
+function removeCheckedIngredients() {
+  const checked = [...ingredientInputs.children].filter(row => row.children[0].checked);
+  if (!checked.length) {
+    showToast('Check an Item First!');
+    return;
+  }
+  checked.forEach(row => row.remove());
+}
+
+function removeLastStep() {
+  if (stepInputs.lastElementChild) stepInputs.lastElementChild.remove();
+}
+
+function removeRecipe() {
+  openModal(`Remove ${editingRecipe.title}?`, '', [
+    {
+      label: 'Remove', primary: true, onClick: () => {
+        data.recipes = data.recipes.filter(recipe => recipe !== editingRecipe);
+        saveData();
+        renderRecipes();
+        showScreen('recipesScreen');
+        showToast(`${editingRecipe.title} removed`);
+      }
+    },
+    { label: 'Cancel', onClick: () => { } },
+  ]);
+}
