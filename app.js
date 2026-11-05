@@ -744,7 +744,7 @@ document.getElementById('addAllergy').addEventListener('click', () => {
   input.blur();
 });
 
-document.getElementById('addFavorite').addEventListener('click', () => {
+function addFavorite() {
   const input = document.getElementById('favoriteInput');
   const name = input.value.trim();
   if (!name) { showToast('Enter a favorite first'); return; }
@@ -752,7 +752,9 @@ document.getElementById('addFavorite').addEventListener('click', () => {
   input.value = '';
   input.blur();
   renderFavorites();
-});
+}
+
+document.getElementById('addFavorite').addEventListener('click', addFavorite);
 
 // Enter adds the typed tag instead of submitting the whole profile.
 document.getElementById('otherAllergy').addEventListener('keydown', event => {
@@ -772,6 +774,8 @@ document.getElementById('personForm').addEventListener('submit', event => {
     showToast('That name is already in your household');
     return;
   }
+  // Keep a favorite typed just before Save, even if Add wasn't tapped.
+  if (document.getElementById('favoriteInput').value.trim()) addFavorite();
   const person = {
     id: id || nextId(), name,
     allergies: [...document.querySelectorAll('#personAllergies input:checked')].map(box => box.value),

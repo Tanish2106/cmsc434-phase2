@@ -39,6 +39,12 @@
        --warn-tint: #F6E3DF;
        /* input fields*/
        --field: #FFFFFF;
+       /* Kitchen controls and active navigation */
+       --kitchen-accent: #24624B;
+       --active-tint: #E0EDE5;
+       /* Shared ownership, distinct from the neutral Me badge */
+       --shared-text: #214E70;
+       --shared-tint: #E1EEF7;
 }
 
 * {
@@ -132,6 +138,10 @@ img {
 
 .screen.active {
        display: flex;
+}
+
+#kitchenScreen {
+       --accent: var(--kitchen-accent);
 }
 
 .scroll {
@@ -331,8 +341,8 @@ img {
 }
 
 .tag.shared {
-       background: var(--tint);
-       color: var(--text);
+       background: var(--shared-tint);
+       color: var(--shared-text);
 }
 
 .empty-note {
@@ -833,7 +843,7 @@ select.field {
 }
 
 .tab.active .pill {
-       background: var(--tint);
+       background: var(--active-tint);
 }
 
 
